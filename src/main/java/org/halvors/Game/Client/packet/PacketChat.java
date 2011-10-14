@@ -25,12 +25,6 @@ public class PacketChat extends Packet {
 		writeString(message, out);
 	}
 	
-	/*
-	public void processPacket(NetHandler nethandler) {
-		nethandler.handleChat(this);
-	}
-	*/
-	
 	public int getPacketSize() {
 		return message.length();
 	}

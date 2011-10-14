@@ -26,15 +26,11 @@ public class NetworkManager {
 			socket = new ServerSocket(port);
 			server.log(Level.INFO, "Server is listening on port: " + port);
 			
-//			while(true) {
-//				clients.add(socket.accept());
-//			}
-			
 			// Create our thread
 	        Thread thread = new Thread(new SocketListenerThread(), "game_serverListener");
 	        thread.start();
 		} catch (IOException e) {
-			server.log(Level.WARNING, "Server could not listen on that port, something went wrong.");
+			server.log(Level.WARNING, "Server could not listen on that port ;(");
 			e.printStackTrace();
 		}
 

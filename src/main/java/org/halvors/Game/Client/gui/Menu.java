@@ -1,67 +1,74 @@
 package main.java.org.halvors.Game.Client.gui;
 
 import java.awt.FlowLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-/*
-import java.awt.Button;
-import java.awt.TextField;
-*/
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
 
-import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class Menu extends JFrame {
-	private static final long serialVersionUID = 1822019861952002123L;
+import main.java.org.halvors.Game.Client.Client;
+import main.java.org.halvors.Game.Client.NetworkManager;
 
-	private JLabel lblTitle;
-	private JButton btnConnect;
-	private JTextField txtConnectTo;
+public class Menu extends JFrame {
+	private final Client client = Client.getInstance();
 	
-	ActionListener actionListener = new ActionListener() {
-	      public void actionPerformed(ActionEvent actionEvent) {
-	        System.out.println("ACTION!");
-	        lblTitle.setText("NO NO NO, YOU DIRTY PIG!");
-	      }
-	    };
+	private static final long serialVersionUID = 1822019861952002123L;
+	
+	private final JLabel labelTitle;
+	private final JLabel labelHost;
+	private final JTextField textFieldHost;
+	private final JLabel labelPort;
+	private final JTextField textFieldPort;
+	private final JButton buttonConnect;
 	
 	public Menu() {
-		
-		// Intializing stiff kinda. Tittel og flowlayout
-		super("Hey!");
-		setLayout(new FlowLayout());
-		
-		lblTitle = new JLabel("This is a test label");
-		txtConnectTo = new JTextField(20);
-		
-		btnConnect = new JButton("Join");
-		btnConnect.addActionListener(actionListener);
-		
-		add(lblTitle);
-		add(txtConnectTo);
-		add(btnConnect);
-		
-		
-		/*
 		setTitle("Game");
 		setSize(800, 600);
 		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new FlowLayout());
 		
-		TextField hostField = new TextField();
-		hostField.setSize(200, 20);
-		TextField portField = new TextField();
-		portField.setSize(200, 20);
-		Button button = new Button("Connect");
-		button.setSize(200, 20);
-		add(hostField);
-		add(portField);
-		add(button);
-		*/
-	}
+		labelTitle = new JLabel("Please enter host and port in the textfields. ");
+		labelHost = new JLabel("Host: ");
+		textFieldHost = new JTextField(20);
+		textFieldHost.setText("127.0.0.1");
+		labelPort = new JLabel("Host: ");
+		textFieldPort = new JTextField(20);
+		textFieldPort.setText("7846");
+		buttonConnect = new JButton("Connect");
+		buttonConnect.addActionListener(actionListener);
 
+		add(labelTitle);
+		add(textFieldHost);
+		add(textFieldPort);
+		add(buttonConnect);
+	}
+	
+	ActionListener actionListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+	    	String host = textFieldHost.getText();
+	    	int port = Integer.parseInt(textFieldPort.getText());
+	    	
+	    	// Check that host and port not is null.
+	    	if (host != null && port > 0) {
+	    		NetworkManager networkManager = new NetworkManager();
+	    		
+	    		try {
+					networkManager.connect(host, port);
+					client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
+				} catch (IOException e) {
+					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));
+					e.printStackTrace();
+				}
+	    	} else {
+	    		client.log(Level.WARNING, "Invalid host or port.");
+	    	}
+	    }
+	};
 }
