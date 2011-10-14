@@ -12,8 +12,8 @@ public class NetworkManager {
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
 	private Socket socket = new Socket();
 	
-	public NetworkManager(String host, int port) throws IOException {
-		connect(host, port);
+	public NetworkManager() {
+		
 	}
 	
 	public void connect(String host, int port) throws IOException {
@@ -23,7 +23,6 @@ public class NetworkManager {
 	public void sendPacket(Packet packet) {
 		if (packet != null) {
 			packets.add(packet);
-			
 		}
 	}
 }

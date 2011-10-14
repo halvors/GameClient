@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.entity;
+package main.java.org.halvors.Game.Server.entity;
 
 import main.java.org.halvors.Game.Server.Location;
 

@@ -5,6 +5,7 @@ public class Main {
 		try {
 			// Start the server instance.
 			Server server = new Server();
+			server.main(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,6 +5,7 @@ public class Main {
 		try {
 			// Start the client.
 			Client client = new Client();
+			client.main(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
