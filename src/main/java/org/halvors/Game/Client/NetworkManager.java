@@ -9,7 +9,7 @@ import java.util.Queue;
 import main.java.org.halvors.Game.Client.packet.Packet;
 
 public class NetworkManager {
-	private final Queue<Packet> packetqueue = new LinkedList<Packet>();
+	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
 	private Socket socket = new Socket();
 	
 	public NetworkManager() {
@@ -22,13 +22,13 @@ public class NetworkManager {
 	
 	public void sendPacket(Packet packet) {
 		if (packet != null) {
-			packetqueue.add(packet);
+			packetQueue.add(packet);
 		}
 	}
 	
 	public void sendPacke(Packet packet,Socket client) throws IOException {
-		Packet current = packetqueue.poll();
-		DataOutputStream dataout = new DataOutputStream(client.getOutputStream());
-		current.writePacketData(dataout);
+		Packet current = packetQueue.poll();
+		DataOutputStream out = new DataOutputStream(client.getOutputStream());
+		current.writePacketData(out);
 	}
 }

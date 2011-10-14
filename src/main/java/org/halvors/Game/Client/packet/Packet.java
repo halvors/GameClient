@@ -4,10 +4,32 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+
 
 public abstract class Packet {
+
+/**
+ * Represents a basic packet.
+ * 
+ * @author halvors
+ */
+public abstract class Packet {
+	private static HashMap<Integer, Class<?>> packetIdToClassMap = new HashMap<Integer, Class<?>>();
+    private static HashMap<Class<?>, Integer> packetClassToIdMap = new HashMap<Class<?>, Integer>();
+	
+
 	public Packet() {
 		
+	}
+	
+	/**
+	 * Get the id for the current packet.
+	 * 
+	 * @return the id.
+	 */
+	public int getPacketId() {
+		return packetClassToIdMap.get(getClass());
 	}
 	
 	public static String readString(DataInputStream in, int i) throws IOException {
@@ -45,4 +67,23 @@ public abstract class Packet {
 	        return;
 	    }
 	}
+	
+	private static void addIdClassMapping(int id, Class<?> clazz) {
+		if (packetIdToClassMap.containsKey(id)) {
+            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet id:").append(id).toString());
+        }
+		
+        if (packetClassToIdMap.containsKey(clazz)) {
+            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet class:").append(clazz).toString());
+        }
+        
+        packetIdToClassMap.put(id, clazz);
+        packetClassToIdMap.put(clazz, Integer.valueOf(id));
+    }
+	
+	static {
+        addIdClassMapping(1, PacketLogin.class);
+        addIdClassMapping(2, PacketChat.class);
+    }
+}
 }

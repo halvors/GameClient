@@ -16,7 +16,7 @@ public class SocketListenerThread implements Runnable {
 	List<Socket>clients = Collections.synchronizedList(new ArrayList<Socket>());
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
 			try {
 				
 					clients.add(Server.getInstance().getNetworkManager().getSocket().accept());
