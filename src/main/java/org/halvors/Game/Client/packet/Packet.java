@@ -36,10 +36,10 @@ public class Packet {
 			throw new IOException("String too big");
 	    } else {
 	    	
-	    	DataOutputStream outt = new DataOutputStream(out);
-	    	outt.writeShort(s.length());
-	        outt.writeChars(s);
-	        outt.flush();
+	    	DataOutputStream dataout = new DataOutputStream(out);
+	    	dataoutout.writeShort(s.length());
+	    	dataoutout.writeChars(s);
+	    	dataoutout.flush();
 	        
 	        return;
 	    }

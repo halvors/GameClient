@@ -17,7 +17,7 @@ public class NetworkManager {
 	}
 	
 	public void connect(String host, int port) throws IOException {
-		// Connect here.
+		socket = new Socket(host,port);
 	}
 	
 	public void sendPacket(Packet packet) {
