@@ -1,7 +1,7 @@
 package main.java.org.halvors.Game.Client;
 
 public class NetClientHandler {
-	NetworkManager netManager = new NetworkManager();
+
 }
 
 /*
