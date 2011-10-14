@@ -17,7 +17,7 @@ public class NetworkManager {
 	}
 	
 	public void connect(String host, int port) throws IOException {
-		socket = new Socket(host,port);
+		socket = new Socket(host, port);
 	}
 	
 	public void sendPacket(Packet packet) {
@@ -26,9 +26,9 @@ public class NetworkManager {
 		}
 	}
 	
-	public void sendPacke(Packet packet,Socket client) throws IOException {
+	public void sendPacke(Packet packet, Socket socket) throws IOException {
 		Packet current = packetQueue.poll();
-		DataOutputStream out = new DataOutputStream(client.getOutputStream());
+		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 		current.writePacketData(out);
 	}
 }

@@ -6,10 +6,6 @@ import java.io.IOException;
 
 public class PacketChat extends Packet {
 	private String message;
-	
-	public PacketChat() {
-		
-	}
 
 	public PacketChat(String s) {
 		if (s.length() > 119) {
@@ -18,11 +14,13 @@ public class PacketChat extends Packet {
 		
 		message = s;
 	}
-
+	
+	@Override
 	public void readPacketData(DataInputStream in) throws IOException {
 		message = readString(in, 119);
 	}
 	
+	@Override
 	public void writePacketData(DataOutputStream out) throws IOException {
 		writeString(message, out);
 	}

@@ -3,11 +3,7 @@ package main.java.org.halvors.Game.Client.packet;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
-
-
-public abstract class Packet {
 
 /**
  * Represents a basic packet.
@@ -18,7 +14,6 @@ public abstract class Packet {
 	private static HashMap<Integer, Class<?>> packetIdToClassMap = new HashMap<Integer, Class<?>>();
     private static HashMap<Class<?>, Integer> packetClassToIdMap = new HashMap<Class<?>, Integer>();
 	
-
 	public Packet() {
 		
 	}
@@ -51,18 +46,17 @@ public abstract class Packet {
 
 	    return stringbuilder.toString();
 	}
-	public abstract void writePacketData(DataOutputStream dataoutputstream)
-    throws IOException;
+	
+	public abstract void readPacketData(DataInputStream in) throws IOException;
+	
+	public abstract void writePacketData(DataOutputStream out) throws IOException;
 	
 	public static void writeString(String s, DataOutputStream out) throws IOException {
 		if(s.length() > 32767) {
 			throw new IOException("String too big");
 	    } else {
-	    	
-	    	//DataOutputStream dataout = new DataOutputStream(out);
 	    	out.writeShort(s.length());
 	    	out.writeChars(s);
-	    	
 	        
 	        return;
 	    }
@@ -85,5 +79,4 @@ public abstract class Packet {
         addIdClassMapping(1, PacketLogin.class);
         addIdClassMapping(2, PacketChat.class);
     }
-}
 }
