@@ -1,5 +1,6 @@
 package main.java.org.halvors.Game.Server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ public class Server {
 	private static Server instance;
 	
 	private final Logger logger = Logger.getLogger("Game");
-//	private final Configuration configuration = new Configuration();
+	private final Configuration configuration = new Configuration(this, new File("server.properties"));
 	private final NetworkManager networkManager = new NetworkManager(this);
 	
 	private final List<World> worlds = new ArrayList<World>();
@@ -24,7 +25,7 @@ public class Server {
 	
 	public void main(String[] args) {
 		// Create the NetworkManager.
-		networkManager.listen(7846);
+		networkManager.listen(configuration.port);
 	}
 
 	public static Server getInstance() {
@@ -111,9 +112,9 @@ public class Server {
 		}
 	}
 
-//	public Configuration getConfiguration() {
-//		return configuration;
-//	}
+	public Configuration getConfiguration() {
+		return configuration;
+	}
 	
 	public NetworkManager getNetworkManager() {
 		return networkManager;
