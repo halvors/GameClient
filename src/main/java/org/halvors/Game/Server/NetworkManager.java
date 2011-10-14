@@ -14,7 +14,7 @@ import main.java.org.halvors.Game.Server.thread.SocketListenerThread;
 public class NetworkManager {
 	private final Server server;
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
-	List<Socket>clients = Collections.synchronizedList(new ArrayList<Socket>());
+	
 	private ServerSocket socket;
 	
 	public NetworkManager(Server server) {
