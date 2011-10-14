@@ -1,5 +1,6 @@
 package main.java.org.halvors.Game.Client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,7 +17,12 @@ public class Client {
 	public Client() {
 		Client.instance = this;
 
+		try {
 		NetworkManager nm = new NetworkManager("127.0.0.1", 7846);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static Client getInstance() {
