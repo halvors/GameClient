@@ -1,6 +1,5 @@
 package main.java.org.halvors.Game.Client;
 
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,18 +10,14 @@ import main.java.org.halvors.Game.Client.packet.Packet;
 
 public class NetworkManager {
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
-	private Socket socket = null;
+	private Socket socket = new Socket();
 	
-	public NetworkManager(String host, int port) {
+	public NetworkManager(String host, int port) throws IOException {
 		connect(host, port);
 	}
 	
-	public void connect(String host, int port) {
-		try {
-			socket = new Socket(host, port);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void connect(String host, int port) throws IOException {
+		// Connect here.
 	}
 	
 	public void sendPacket(Packet packet) {
