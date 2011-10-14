@@ -1,7 +1,7 @@
 package main.java.org.halvors.Game.Client;
 
 
-import java.net.InetAddress;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,16 +11,16 @@ import main.java.org.halvors.Game.Client.packet.Packet;
 
 public class NetworkManager {
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
-	private final Socket socket = new Socket();
+	private final Socket socket = null;
 	
-	public NetworkManager(InetAddress address) {
-		connect(address);
+	public NetworkManager(String host, int port {
+		connect(host, port);
 	}
 	
-	public void connect(InetAddress address) {
+	public void connect(String host, int port) {
 		try {
-			// TODO: Connect socket here...
-		} catch (Exception e) {
+			socket = new Socket(host, port);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
