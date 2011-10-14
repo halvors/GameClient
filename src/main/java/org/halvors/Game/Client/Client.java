@@ -1,13 +1,12 @@
 package main.java.org.halvors.Game.Client;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Client.entity.Player;
+import main.java.org.halvors.Game.Client.gui.Menu;
 
 public class Client {
 	private static Client instance;
@@ -19,21 +18,10 @@ public class Client {
 	public Client() {
 		Client.instance = this;
 		
-		Scanner in = new Scanner(System.in);
-		String host;
-		int port;
+		log(Level.INFO, "Game initialized successfully.");
 		
-		logger.log(Level.INFO, "Enter a host: ");
-		host = in.nextLine();
-		logger.log(Level.INFO, "Enter a port: ");
-		port = in.nextInt();
-		
-		try {
-			Socket socket = new Socket(host, port);
-			logger.log(Level.INFO, "Connected to: " + host + ":" + port);
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+		// Show up the menu.
+		Menu menu = new Menu();
 	}
 	
 	public static Client getInstance() {
@@ -42,6 +30,10 @@ public class Client {
 	
 	public Logger getLogger() {
 		return logger;
+	}
+	
+	public void log(Level level, String message) {
+		logger.log(level, message);
 	}
 	
 	public List<World> getWorlds() {
