@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			// Start the server instance.
-			Server server = new Server();
+			GameServer server = new GameServer();
 			server.main(args);
 		} catch (Exception e) {
 			e.printStackTrace();

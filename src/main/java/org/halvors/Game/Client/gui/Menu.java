@@ -11,11 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import main.java.org.halvors.Game.Client.Client;
+import main.java.org.halvors.Game.Client.Game;
 import main.java.org.halvors.Game.Client.NetworkManager;
 
 public class Menu extends JFrame {
-	private final Client client;
+	private final Game client;
 	private static final long serialVersionUID = 1822019861952002123L;
 	
 	private final JLabel labelTitle;
@@ -25,7 +25,7 @@ public class Menu extends JFrame {
 	private final JTextField textFieldPort;
 	private final JButton buttonConnect;
 	
-	public Menu(Client client) {
+	public Menu(Game client) {
 		this.client = client;
 		
 		// Set the window defaults.

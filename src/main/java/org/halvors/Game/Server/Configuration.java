@@ -7,14 +7,14 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 public class Configuration {
-	private final Server server;
+	private final GameServer server;
     private final Properties properties = new Properties();
     private final File file;
     
     public String host;
     public int port;
     
-    public Configuration(Server server, File file) {
+    public Configuration(GameServer server, File file) {
     	this.server = server;
         this.file = file;
         

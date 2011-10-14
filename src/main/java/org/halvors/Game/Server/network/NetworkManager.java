@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Server;
+package main.java.org.halvors.Game.Server.network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.logging.Level;
 
 import main.java.org.halvors.Game.Client.packet.Packet;
-import main.java.org.halvors.Game.Server.thread.SocketListenerThread;
+import main.java.org.halvors.Game.Server.GameServer;
 
 public class NetworkManager {
-	private final Server server;
+	private final GameServer server;
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
 	
 	private ServerSocket socket;
 	
-	public NetworkManager(Server server) {
+	public NetworkManager(GameServer server) {
 		this.server = server;
 	}
 	
@@ -26,7 +26,7 @@ public class NetworkManager {
 			server.log(Level.INFO, "Server is listening on port: " + port);
 			
 			// Create our thread
-	        Thread thread = new Thread(new SocketListenerThread(), "game_serverListener");
+	        Thread thread = new Thread(new NetworkListenThread(), "game_serverListener");
 	        thread.start();
 		} catch (IOException e) {
 			server.log(Level.WARNING, "Server could not listen on that port ;(");

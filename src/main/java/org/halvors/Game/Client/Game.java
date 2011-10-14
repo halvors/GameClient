@@ -5,16 +5,16 @@ import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Client.gui.Menu;
 
-public class Client {
-	private static Client instance;
+public class Game {
+	private static Game instance;
 	
 	private final String name = "Game";
 	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
 	
-	public Client() {
-		Client.instance = this;	
+	public Game() {
+		Game.instance = this;	
 	}
 	
 	public void main(String[] args) {
@@ -22,7 +22,7 @@ public class Client {
 		Menu menu = new Menu(this);
 	}
 	
-	public static Client getInstance() {
+	public static Game getInstance() {
 		return instance;
 	}
 	

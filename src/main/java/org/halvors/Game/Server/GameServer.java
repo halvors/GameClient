@@ -8,9 +8,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Server.entity.Player;
+import main.java.org.halvors.Game.Server.network.NetworkManager;
 
-public class Server {
-	private static Server instance;
+public class GameServer {
+	private static GameServer instance;
+	
+	private final String name = "Game";
+	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
 	private final Configuration configuration = new Configuration(this, new File("server.properties"));
@@ -19,8 +23,8 @@ public class Server {
 	private final List<World> worlds = new ArrayList<World>();
 	private final List<Player> players = new ArrayList<Player>();
 	
-	public Server() {
-		Server.instance = this;
+	public GameServer() {
+		GameServer.instance = this;
 	}
 	
 	public void main(String[] args) {
@@ -28,8 +32,16 @@ public class Server {
 		networkManager.listen(configuration.port);
 	}
 
-	public static Server getInstance() {
+	public static GameServer getInstance() {
 		return instance;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 	
 	public Logger getLogger() {
