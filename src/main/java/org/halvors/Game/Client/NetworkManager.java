@@ -11,9 +11,9 @@ import main.java.org.halvors.Game.Client.packet.Packet;
 
 public class NetworkManager {
 	private final List<Packet>packets = Collections.synchronizedList(new ArrayList<Packet>());
-	private final Socket socket = null;
+	private Socket socket = null;
 	
-	public NetworkManager(String host, int port {
+	public NetworkManager(String host, int port) {
 		connect(host, port);
 	}
 	
