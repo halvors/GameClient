@@ -3,6 +3,7 @@ package main.java.org.halvors.Game.Client.packet;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class Packet {
 	public Packet() {
@@ -29,12 +30,16 @@ public class Packet {
 	    return stringbuilder.toString();
 	}
 	    
-	public static void writeString(String s, DataOutputStream out) throws IOException {
+	//public static void writeString(String s, DataOutputStream out) throws IOException {
+	public static void writeString(String s, OutputStream out) throws IOException {
 		if(s.length() > 32767) {
 			throw new IOException("String too big");
 	    } else {
-	    	out.writeShort(s.length());
-	        out.writeChars(s);
+	    	
+	    	DataOutputStream dataout = new DataOutputStream(out);
+	    	dataout.writeShort(s.length());
+	    	dataout.writeChars(s);
+	    	dataout.flush();
 	        
 	        return;
 	    }
