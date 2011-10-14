@@ -12,17 +12,14 @@ public class Client {
 	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
-	private final NetworkManager networkManager = new NetworkManager();
 	
 	public Client() {
 		Client.instance = this;	
-		
-		// Create the menu.
-		Menu menu = new Menu();
 	}
 	
 	public void main(String[] args) {
-		
+		// Create the menu.
+		Menu menu = new Menu(this);
 	}
 	
 	public static Client getInstance() {
