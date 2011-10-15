@@ -10,10 +10,7 @@ public class Configuration {
 	private final GameServer server;
     private final Properties properties = new Properties();
     private final File file;
-    
-    public String host;
-    public int port;
-    
+
     public Configuration(GameServer server, File file) {
     	this.server = server;
         this.file = file;
@@ -29,8 +26,6 @@ public class Configuration {
             server.log(Level.WARNING, file + " does not exist");
             createConfiguration();
         }
-        
-        loadConfiguration();
     }
 
     public void createConfiguration() {
@@ -38,11 +33,6 @@ public class Configuration {
         saveConfiguration();
     }
     
-    public void loadConfiguration() {
-    	host = properties.getProperty("host", "0.0.0.0");
-    	port = Integer.parseInt(properties.getProperty("port", "7846"));
-    }
-
     public void saveConfiguration() {
         try {
             properties.store(new FileOutputStream(file), "Game server properties");
@@ -50,5 +40,39 @@ public class Configuration {
             server.log(Level.WARNING, "Failed to save " + file);
             createConfiguration();
         }
+    }
+    
+    public String getStringProperty(String s, String s1) {
+        if (!properties.containsKey(s)) {
+        	properties.setProperty(s, s1);
+            saveConfiguration();
+        }
+        
+        return properties.getProperty(s, s1);
+    }
+
+    public int getIntProperty(String s, int i) {
+        try {
+            return Integer.parseInt(getStringProperty(s, (new StringBuilder()).append("").append(i).toString()));
+        } catch(Exception exception) {
+        	properties.setProperty(s, (new StringBuilder()).append("").append(i).toString());
+        }
+        
+        return i;
+    }
+
+    public boolean getBooleanProperty(String s, boolean flag) {
+        try {
+            return Boolean.parseBoolean(getStringProperty(s, (new StringBuilder()).append("").append(flag).toString()));
+        } catch(Exception exception) {
+        	properties.setProperty(s, (new StringBuilder()).append("").append(flag).toString());
+        }
+        
+        return flag;
+    }
+
+    public void setProperty(String s, boolean flag) {
+    	properties.setProperty(s, (new StringBuilder()).append("").append(flag).toString());
+        saveConfiguration();
     }
 }
