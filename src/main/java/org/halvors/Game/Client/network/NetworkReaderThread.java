@@ -1,11 +1,10 @@
 package main.java.org.halvors.Game.Client.network;
 
-public class NetworkReaderThread implements Runnable {
+public class NetworkReaderThread extends Thread {
 	public NetworkReaderThread() {
 		
 	}
 	
-	@Override
 	public void run() {
 		// TODO: Read packets from socket here.
 	}

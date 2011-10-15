@@ -27,9 +27,9 @@ public abstract class Packet {
 		return packetClassToIdMap.get(getClass());
 	}
 	
-	public abstract void readPacketData(DataInputStream in) throws IOException;
+	public abstract void readPacketData(DataInputStream input) throws IOException;
 	
-	public abstract void writePacketData(DataOutputStream out) throws IOException;
+	public abstract void writePacketData(DataOutputStream output) throws IOException;
 	
 	private static void addIdClassMapping(int id, Class<?> clazz) {
 		if (packetIdToClassMap.containsKey(id)) {

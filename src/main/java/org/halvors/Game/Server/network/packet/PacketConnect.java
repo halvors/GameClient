@@ -15,15 +15,15 @@ public class PacketConnect extends Packet {
 	}
 	
 	@Override
-	public void readPacketData(DataInputStream in) throws IOException {
-		username = PacketUtil.readString(in, 16);
-		version = PacketUtil.readString(in, 16);
+	public void readPacketData(DataInputStream input) throws IOException {
+		username = PacketUtil.readString(input, 16);
+		version = PacketUtil.readString(input, 16);
 	}
 
 	@Override
-	public void writePacketData(DataOutputStream out) throws IOException {
-		PacketUtil.writeString(username, out);
-		PacketUtil.writeString(version, out);
+	public void writePacketData(DataOutputStream output) throws IOException {
+		PacketUtil.writeString(username, output);
+		PacketUtil.writeString(version, output);
 	}
 	
 	public int getPacketSize() {

@@ -1,5 +1,7 @@
 package main.java.org.halvors.Game.Client.network;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -20,11 +22,14 @@ public class NetworkManager {
 		}
 	}
 	
-//	public void sendPacke(Packet packet, Socket socket) throws IOException {
+	public void sendPacketWithoutQueuing(Packet packet) throws IOException {
 //		Packet current = packetQueue.poll();
 //		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 //		current.writePacketData(out);
-//	}
+		
+		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+		packet.writePacketData(out);
+	}
 
 	public Socket getSocket() {
 		return socket;

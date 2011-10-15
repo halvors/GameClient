@@ -16,13 +16,13 @@ public class PacketChat extends Packet {
 	}
 	
 	@Override
-	public void readPacketData(DataInputStream in) throws IOException {
-		message = PacketUtil.readString(in, 119);
+	public void readPacketData(DataInputStream input) throws IOException {
+		message = PacketUtil.readString(input, 119);
 	}
 	
 	@Override
-	public void writePacketData(DataOutputStream out) throws IOException {
-		PacketUtil.writeString(message, out);
+	public void writePacketData(DataOutputStream output) throws IOException {
+		PacketUtil.writeString(message, output);
 	}
 	
 	public int getPacketSize() {

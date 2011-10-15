@@ -24,6 +24,8 @@ public class GameServer {
 	private final List<World> worlds = new ArrayList<World>();
 	private final List<Player> players = new ArrayList<Player>();
 	
+	private Thread thread;
+	
 	public GameServer() {
 		GameServer.instance = this;
 	}
@@ -35,8 +37,7 @@ public class GameServer {
 		// Check if host is greater than 0.
 		if (host.length() > 0 && port > 0) {
 			try {
-				// TODO: Shuld this run as a thread? Unsure about this, Minecraft is not done so...
-				Thread thread = new Thread(new NetworkListenThread(this, InetAddress.getByName(host), port), "networkListenerThread");
+				thread = new NetworkListenThread(this, InetAddress.getByName(host), port);
 				thread.start();
 			} catch (IOException e) {
 				e.printStackTrace();

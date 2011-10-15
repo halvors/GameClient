@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.org.halvors.Game.Client.network.packet.Packet;
 import main.java.org.halvors.Game.Server.GameServer;
+import main.java.org.halvors.Game.Server.network.packet.Packet;
 
 public class NetworkManager {
 	private final Socket socket;
