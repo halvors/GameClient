@@ -19,10 +19,10 @@ public class GameServer {
 	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
-	private final Configuration configuration = new Configuration(this, new File("server.properties"));
 	private final List<World> worlds = new ArrayList<World>();
 	private final List<Player> players = new ArrayList<Player>();
 	
+	private Configuration configuration;
 	private Thread thread;
 	
 	public GameServer() {
@@ -30,16 +30,22 @@ public class GameServer {
 	}
 	
 	public void main(String[] args) {
-		String host = "0.0.0.0";
-		int port = 7846;
+		log(Level.INFO, "Starting " + getName() + "Server " + getVersion());
+		
+		configuration = new Configuration(this, new File("server.properties"));
+		String host = configuration.getStringProperty("host", "0.0.0.0");
+		int port = configuration.getIntProperty("port", 7846);
 		
 		// Check if host is greater than 0.
 		if (host.length() > 0 && port > 0) {
 			try {
 				thread = new NetworkListenThread(this, InetAddress.getByName(host), port);
 				thread.start();
+				log(Level.INFO, "Server is running on: " + host + ":" + Integer.toString(port));
 			} catch (IOException e) {
+				log(Level.WARNING, "Failed to bind to port: " + Integer.toString(port));
 				e.printStackTrace();
+				// TODO: Maybe shut down server here. No need for a server that isn't listening for clients :P
 			}
 		}
 	}
