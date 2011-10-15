@@ -14,10 +14,10 @@ import javax.swing.JTextField;
 import main.java.org.halvors.Game.Client.Game;
 import main.java.org.halvors.Game.Client.NetworkManager;
 
-public class Menu extends JFrame {
+public class MainWindow extends JFrame {
+	private static final long serialVersionUID = -7295614566043922732L;
+
 	private final Game client;
-	private static final long serialVersionUID = 1822019861952002123L;
-	
 	private final JLabel labelTitle;
 	private final JLabel labelHost;
 	private final JTextField textFieldHost;
@@ -25,11 +25,11 @@ public class Menu extends JFrame {
 	private final JTextField textFieldPort;
 	private final JButton buttonConnect;
 	
-	public Menu(Game client) {
+	public MainWindow(Game client) {
 		this.client = client;
 		
 		// Set the window defaults.
-		setTitle("Game");
+		setTitle(client.getName() + " " + client.getVersion());
 		setSize(800, 600);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

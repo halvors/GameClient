@@ -1,13 +1,13 @@
-package main.java.org.halvors.Game.Client.packet;
+package main.java.org.halvors.Game.Server.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketLogin extends Packet {
-	public String username;
+public class PacketConnect extends Packet {
+	private String username;
 	
-	public PacketLogin(String username) {
+	public PacketConnect(String username) {
 		this.username = username;
 	}
 	

@@ -1,6 +1,8 @@
 package main.java.org.halvors.Game.Server;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Server.entity.Player;
+import main.java.org.halvors.Game.Server.network.NetworkListenThread;
 import main.java.org.halvors.Game.Server.network.NetworkManager;
 
 public class GameServer {
@@ -18,8 +21,6 @@ public class GameServer {
 	
 	private final Logger logger = Logger.getLogger("Game");
 	private final Configuration configuration = new Configuration(this, new File("server.properties"));
-	private final NetworkManager networkManager = new NetworkManager(this);
-	
 	private final List<World> worlds = new ArrayList<World>();
 	private final List<Player> players = new ArrayList<Player>();
 	
@@ -28,8 +29,19 @@ public class GameServer {
 	}
 	
 	public void main(String[] args) {
-		// Create the NetworkManager.
-		networkManager.listen(configuration.port);
+		String host = "0.0.0.0";
+		int port = 7846;
+		
+		// Check if host is greater than 0.
+		if (host.length() > 0 && port > 0) {
+			try {
+				// TODO: Shuld this run as a thread? Unsure about this, Minecraft is not done so...
+				Thread thread = new Thread(new NetworkListenThread(this, InetAddress.getByName(host), port), "networkListenerThread");
+				thread.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static GameServer getInstance() {
@@ -126,9 +138,5 @@ public class GameServer {
 
 	public Configuration getConfiguration() {
 		return configuration;
-	}
-	
-	public NetworkManager getNetworkManager() {
-		return networkManager;
 	}
 }

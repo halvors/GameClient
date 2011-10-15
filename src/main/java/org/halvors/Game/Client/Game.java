@@ -3,7 +3,7 @@ package main.java.org.halvors.Game.Client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import main.java.org.halvors.Game.Client.gui.Menu;
+import main.java.org.halvors.Game.Client.gui.MainWindow;
 
 public class Game {
 	private static Game instance;
@@ -19,7 +19,7 @@ public class Game {
 	
 	public void main(String[] args) {
 		// Create the menu.
-		Menu menu = new Menu(this);
+		MainWindow MainWindow = new MainWindow(this);
 	}
 	
 	public static Game getInstance() {
