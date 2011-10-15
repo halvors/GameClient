@@ -139,4 +139,12 @@ public class GameServer {
 	public Configuration getConfiguration() {
 		return configuration;
 	}
+	
+	public NetworkListenThread getNetworkListenThread() {
+		if (thread instanceof NetworkListenThread) {
+			return (NetworkListenThread) thread;
+		}
+		
+		return null;
+	}
 }
