@@ -27,40 +27,9 @@ public abstract class Packet {
 		return packetClassToIdMap.get(getClass());
 	}
 	
-	public static String readString(DataInputStream in, int i) throws IOException {
-		short word = in.readShort();
-		
-	    if (word > i) {
-	    	throw new IOException((new StringBuilder()).append("Received string length longer than maximum allowed (").append(word).append(" > ").append(i).append(")").toString());
-	    }
-	    
-	    if (word < 0) {
-	    	throw new IOException("Received string length is less than zero! Weird string!");
-	    }
-	    
-	    StringBuilder stringbuilder = new StringBuilder();
-	    
-	    for (int j = 0; j < word; j++) {
-	    	stringbuilder.append(in.readChar());
-	    }
-
-	    return stringbuilder.toString();
-	}
-	
 	public abstract void readPacketData(DataInputStream in) throws IOException;
 	
 	public abstract void writePacketData(DataOutputStream out) throws IOException;
-	
-	public static void writeString(String s, DataOutputStream out) throws IOException {
-		if (s.length() > 32767) {
-			throw new IOException("String too big");
-	    } else {
-	    	out.writeShort(s.length());
-	    	out.writeChars(s);
-	        
-	        return;
-	    }
-	}
 	
 	private static void addIdClassMapping(int id, Class<?> clazz) {
 		if (packetIdToClassMap.containsKey(id)) {

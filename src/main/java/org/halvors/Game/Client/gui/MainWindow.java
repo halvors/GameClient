@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -12,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import main.java.org.halvors.Game.Client.Game;
-import main.java.org.halvors.Game.Client.NetworkManager;
+import main.java.org.halvors.Game.Client.network.NetworkManager;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
@@ -51,6 +52,7 @@ public class MainWindow extends JFrame {
 		add(textFieldHost);
 		add(textFieldPort);
 		add(buttonConnect);
+		pack();
 	}
 	
 	ActionListener actionListener = new ActionListener() {
@@ -61,11 +63,9 @@ public class MainWindow extends JFrame {
 	    	
 	    	// Check that host and port not is null.
 	    	if (host != null && port > 0) {
-	    		NetworkManager networkManager = new NetworkManager();
-	    		
 	    		try {
-					networkManager.connect(host, port);
-					client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
+	    			NetworkManager networkManager = new NetworkManager(new Socket(host, port));
+	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
 				} catch (IOException e) {
 					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));
 					e.printStackTrace();

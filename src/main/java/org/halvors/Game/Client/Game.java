@@ -19,7 +19,7 @@ public class Game {
 	
 	public void main(String[] args) {
 		// Create the menu.
-		MainWindow MainWindow = new MainWindow(this);
+		MainWindow mainWindow = new MainWindow(this);
 	}
 	
 	public static Game getInstance() {

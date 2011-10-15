@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.org.halvors.Game.Client.packet.Packet;
+import main.java.org.halvors.Game.Client.network.packet.Packet;
 import main.java.org.halvors.Game.Server.GameServer;
 
 public class NetworkManager {

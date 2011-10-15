@@ -1,7 +1,7 @@
 package main.java.org.halvors.Game.Server.network;
 
-import main.java.org.halvors.Game.Client.packet.PacketChat;
-import main.java.org.halvors.Game.Client.packet.PacketLogin;
+import main.java.org.halvors.Game.Client.network.packet.PacketChat;
+import main.java.org.halvors.Game.Client.network.packet.PacketLogin;
 import main.java.org.halvors.Game.Server.GameServer;
 import main.java.org.halvors.Game.Server.entity.Player;
 import main.java.org.halvors.Game.Server.network.packet.PacketDisconnect;

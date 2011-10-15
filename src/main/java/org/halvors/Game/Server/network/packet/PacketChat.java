@@ -17,12 +17,12 @@ public class PacketChat extends Packet {
 	
 	@Override
 	public void readPacketData(DataInputStream in) throws IOException {
-		message = readString(in, 119);
+		message = PacketUtil.readString(in, 119);
 	}
 	
 	@Override
 	public void writePacketData(DataOutputStream out) throws IOException {
-		writeString(message, out);
+		PacketUtil.writeString(message, out);
 	}
 	
 	public int getPacketSize() {
