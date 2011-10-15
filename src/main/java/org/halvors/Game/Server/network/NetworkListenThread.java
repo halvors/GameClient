@@ -26,7 +26,15 @@ public class NetworkListenThread extends Thread {
 			try {
 				Socket socket = serverSocket.accept();
 				
+				// Remove old sockets.
+				if (hasClient(socket)) {
+					removeClient(socket);
+				}
+				
 				if (socket != null && socket.isBound()) {
+					// Add the socket to the clients list.
+					addClient(socket);
+					
 					server.log(Level.INFO, "Connection accepted from: " + socket.getRemoteSocketAddress().toString());
 				}
 			} catch (IOException e) {
@@ -37,6 +45,28 @@ public class NetworkListenThread extends Thread {
 	
 	public ServerSocket getServerSocket() {
 		return serverSocket;
+	}
+	
+	public boolean hasClient(Socket socket) {
+		for (Socket s : clients) {
+			if (socket.getInetAddress() == s.getInetAddress() && socket.getPort() == s.getPort()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void addClient(Socket socket) {
+		if (!clients.contains(socket)) {
+			clients.add(socket);
+		}
+	}
+	
+	public void removeClient(Socket socket) {
+		if (clients.contains(socket)) {
+			clients.remove(socket);
+		}
 	}
 
 	public List<Socket> getClients() {
