@@ -7,8 +7,8 @@ import java.io.IOException;
 import main.java.org.halvors.Game.Server.GameServer;
 
 public class PacketLogin extends Packet {
-	private String username;
-	private String version = GameServer.getInstance().getVersion();
+	public String username;
+	public String version = GameServer.getInstance().getVersion();
 	
 	public PacketLogin(String username) {
 		this.username = username;

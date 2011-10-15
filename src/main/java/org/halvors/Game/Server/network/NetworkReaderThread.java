@@ -19,9 +19,10 @@ public class NetworkReaderThread extends Thread {
 	public void run() {
 		try {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
+			Packet packet = null;
 			
 			while (socket.isConnected()) {
-				Packet packet = PacketUtil.readPacket(input);
+				packet = PacketUtil.readPacket(input);
 			
 				if (packet != null && input != null) {
 					packet.handlePacket(packet, networkManager.getNetworkServerHandler());

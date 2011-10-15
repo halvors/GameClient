@@ -10,36 +10,36 @@ public class PacketUtil {
     private static HashMap<Class<?>, Integer> packetClassToIdMap = new HashMap<Class<?>, Integer>();
     
 	public static Packet getNewPacket(int id) {
-		Class<?> clazz = packetIdToClassMap.get(id);
-		
 		try {
-			return (Packet) clazz.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+            Class<?> clazz = (Class<?>) packetIdToClassMap.get(id);
+            
+            if (clazz != null) {
+                return (Packet) clazz.newInstance();
+            }
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+            
+//        System.out.println((new StringBuilder()).append("Skipping packet with id ").append(id).toString());
+            
+        return null;
     }
 	
 	public static Packet readPacket(DataInputStream input) throws IOException {
 		try {
             int id = input.read();
             
-            if (id == -1) {
-                return null;
+            if (id != -1) {
+            	Packet packet = getNewPacket(id);
+            
+            	if (packet == null) {
+            		throw new IOException((new StringBuilder()).append("Bad packet id ").append(id).toString());
+            	}
+            
+            	packet.readPacketData(input);
+            
+            	return packet;
             }
-            
-            Packet packet = getNewPacket(id);
-            
-            if (packet == null) {
-                throw new IOException((new StringBuilder()).append("Bad packet id ").append(id).toString());
-            }
-            
-            packet.readPacketData(input);
-            
-            return packet;
         } catch(IOException e) {
             System.out.println("Reached end of stream.");
             e.printStackTrace();

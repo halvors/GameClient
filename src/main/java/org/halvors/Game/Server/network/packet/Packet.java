@@ -36,6 +36,6 @@ public abstract class Packet {
 	 * @return the id.
 	 */
 	public int getPacketId() {
-		return PacketUtil.getIdFromClass(getClass());
+		return 2;/*PacketUtil.getIdFromClass(getClass());*/
 	}
 }
