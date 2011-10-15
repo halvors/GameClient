@@ -1,4 +1,0 @@
-#Game server properties
-#Sat Oct 15 14:04:23 CEST 2011
-port=10000:e
-host= 127.0.0.1
