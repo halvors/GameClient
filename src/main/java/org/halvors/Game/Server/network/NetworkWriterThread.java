@@ -1,8 +1,12 @@
 package main.java.org.halvors.Game.Server.network;
 
+import java.net.Socket;
+
 public class NetworkWriterThread extends Thread {
-	public NetworkWriterThread() {
-		
+	private final Socket socket;
+	
+	public NetworkWriterThread(NetworkManager networkManager) {
+		this.socket = networkManager.getSocket();
 	}
 	
 	public void run() {

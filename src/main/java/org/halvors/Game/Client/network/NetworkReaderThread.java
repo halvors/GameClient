@@ -1,8 +1,10 @@
 package main.java.org.halvors.Game.Client.network;
 
 public class NetworkReaderThread extends Thread {
-	public NetworkReaderThread() {
-		
+	private final NetworkManager networkManager;
+	
+	public NetworkReaderThread(NetworkManager networkManager) {
+		this.networkManager = networkManager;
 	}
 	
 	public void run() {

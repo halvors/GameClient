@@ -32,6 +32,7 @@ public class GameServer {
 	public void main(String[] args) {
 		log(Level.INFO, "Starting " + getName() + "Server " + getVersion());
 		
+		// Loading configuration.
 		configuration = new Configuration(this, new File("server.properties"));
 		String host = configuration.getStringProperty("host", "0.0.0.0");
 		int port = configuration.getIntProperty("port", 7846);

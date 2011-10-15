@@ -14,7 +14,7 @@ import main.java.org.halvors.Game.Server.GameServer;
 public class NetworkListenThread extends Thread {
 	private final GameServer server;
 	private final ServerSocket serverSocket;
-	private final List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
+	private final List<NetworkManager> clients = Collections.synchronizedList(new ArrayList<NetworkManager>());
 	
 	public NetworkListenThread(GameServer server, InetAddress address, int port) throws IOException {
 		this.server = server;
@@ -26,15 +26,9 @@ public class NetworkListenThread extends Thread {
 			try {
 				Socket socket = serverSocket.accept();
 				
-				// Remove old sockets.
-				if (hasClient(socket)) {
-					removeClient(socket);
-				}
-				
 				if (socket != null && socket.isBound()) {
 					// Add the socket to the clients list.
 					addClient(socket);
-					
 					server.log(Level.INFO, "Connection accepted from: " + socket.getRemoteSocketAddress().toString());
 				}
 			} catch (IOException e) {
@@ -48,7 +42,9 @@ public class NetworkListenThread extends Thread {
 	}
 	
 	public boolean hasClient(Socket socket) {
-		for (Socket s : clients) {
+		for (NetworkManager n : clients) {
+			Socket s = n.getSocket();
+			
 			if (socket.getInetAddress() == s.getInetAddress() && socket.getPort() == s.getPort()) {
 				return true;
 			}
@@ -59,17 +55,19 @@ public class NetworkListenThread extends Thread {
 	
 	public void addClient(Socket socket) {
 		if (!clients.contains(socket)) {
-			clients.add(socket);
+			// Create a new NetworkManager and add it to the clients list.
+			NetworkManager networkManager = new NetworkManager(socket);
+			clients.add(networkManager);
 		}
 	}
 	
-	public void removeClient(Socket socket) {
-		if (clients.contains(socket)) {
-			clients.remove(socket);
+	public void removeClient(NetworkManager networkManager) {
+		if (clients.contains(networkManager)) {
+			clients.remove(networkManager);
 		}
 	}
 
-	public List<Socket> getClients() {
+	public List<NetworkManager> getClients() {
 		return clients;
 	}
 }

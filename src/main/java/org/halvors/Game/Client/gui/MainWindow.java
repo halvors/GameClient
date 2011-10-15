@@ -70,7 +70,7 @@ public class MainWindow extends JFrame {
 	    	if (host != null && port > 0) {
 	    		try {
 	    			networkManager = new NetworkManager(new Socket(host, port));
-	    			networkManager.sendPacketWithoutQueuing(new PacketChat("This is a chat message."));
+	    			networkManager.sendPacket(new PacketChat("This is a chat message."));
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
 				} catch (IOException e) {
 					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));

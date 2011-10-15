@@ -21,17 +21,18 @@ public class PacketUtil {
 		}
     }
 	
-	public static Packet readPacket(DataInputStream in) throws IOException {
-		int id = in.read();
+	public static Packet readPacket(DataInputStream input) throws IOException {
+		int id = input.read();
 		Packet packet = getNewPacket(id);
-		packet.readPacketData(in);
+		packet.readPacketData(input); // TODO: NullPointerException here ;(
 		
 		return packet;
 	}
 	
-	public static Packet writePacket(DataOutputStream out) throws IOException {
-		return null;
-	}
+    public static void writePacket(Packet packet, DataOutputStream output) throws IOException {
+        output.write(packet.getPacketId());
+        packet.writePacketData(output);
+    }
 	
 	public static String readString(DataInputStream input, int i) throws IOException {
 		short word = input.readShort();

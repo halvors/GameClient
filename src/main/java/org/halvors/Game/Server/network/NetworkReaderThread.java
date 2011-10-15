@@ -3,9 +3,6 @@ package main.java.org.halvors.Game.Server.network;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 
 import main.java.org.halvors.Game.Server.GameServer;
@@ -14,42 +11,28 @@ import main.java.org.halvors.Game.Server.network.packet.PacketChat;
 import main.java.org.halvors.Game.Server.network.packet.PacketUtil;
 
 public class NetworkReaderThread extends Thread {
-	public NetworkReaderThread(NetworkManager netmngr) {
-		networkmanager = netmngr;
+	private final GameServer server = GameServer.getInstance();
+	private final Socket socket;
+	
+	public NetworkReaderThread(NetworkManager networkManager) {
+		this.socket = networkManager.getSocket();
 	}
-	NetworkManager networkmanager;
-	//private final List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
+	
 	public void run() {
-		// TODO: Read packets from socket here.
-		while(true)
-		{
-			
-				if(GameServer.getInstance().getNetworkListenThread() != null)
-				{
-					DataInputStream dis;
-					try {
-						dis = new DataInputStream(networkmanager.getSocket().getInputStream());
-					} catch (IOException e) {
-						dis = null;
-						e.printStackTrace();
+		while (socket.isConnected()) {
+			if (server != null) {
+				try {
+					DataInputStream input = new DataInputStream(socket.getInputStream());
+					Packet packet = PacketUtil.readPacket(input);
+					
+					if (packet instanceof PacketChat) {
+						PacketChat packetChat = (PacketChat) packet;
+						server.log(Level.INFO, packetChat.message);
 					}
-					Packet packet;
-					try {
-						packet = PacketUtil.readPacket(dis);
-					} catch (IOException e) {
-						packet = null;
-						e.printStackTrace();
-					}
-					if(packet.getPacketId() == 2)
-					{
-						PacketChat PC = (PacketChat)packet;
-						GameServer.getInstance().log(Level.INFO, PC.message);
-						
-					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			
-		}
-		
-		}
+			}
+		}	
 	}
-
+}
