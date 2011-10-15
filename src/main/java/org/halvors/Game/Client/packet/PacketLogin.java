@@ -7,7 +7,7 @@ import java.io.IOException;
 public class PacketLogin extends Packet {
 	
 	@Override
-	public void readPacketData(DataInputStream in) throws IOException {
+	public void ReadPacketData(DataInputStream in) throws IOException {
 		
 	}
 

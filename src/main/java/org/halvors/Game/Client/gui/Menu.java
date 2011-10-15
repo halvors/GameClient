@@ -26,6 +26,7 @@ public class Menu extends JFrame {
 	ActionListener actionListener = new ActionListener() {
 	      public void actionPerformed(ActionEvent actionEvent) {
 	        System.out.println("ACTION!");
+	        
 	        lblTitle.setText("NO NO NO, YOU DIRTY PIG!");
 	      }
 	    };

@@ -26,7 +26,9 @@ public abstract class Packet {
 	public int getPacketId() {
 		return packetClassToIdMap.get(getClass());
 	}
-	
+	//public class getpacket(int id) {
+	//	return packetIdToClassMap.get(id);
+	//}
 	public static String readString(DataInputStream in, int i) throws IOException {
 		short word0 = in.readShort();
 		
@@ -46,8 +48,28 @@ public abstract class Packet {
 
 	    return stringbuilder.toString();
 	}
-	
-	public abstract void readPacketData(DataInputStream in) throws IOException;
+	public static Packet getNewPacket(int i)
+    {
+		Class claz = packetIdToClassMap.get(i);
+		try {
+			return (Packet)claz.newInstance();
+		} catch (InstantiationException e) {
+			return null;
+			
+		} catch (IllegalAccessException e) {
+			return null;
+			
+		}
+    }
+	public abstract void ReadPacketData(DataInputStream in) throws IOException;
+	public static Packet ReadPacket(DataInputStream in) throws IOException
+	{
+		int id = in.read();
+		Packet packet = getNewPacket(id);
+		
+		packet.ReadPacketData(in);
+		return packet;
+	}
 	
 	public abstract void writePacketData(DataOutputStream out) throws IOException;
 	

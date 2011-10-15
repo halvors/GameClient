@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+
 public class PacketChat extends Packet {
 	private String message;
 
@@ -16,12 +17,14 @@ public class PacketChat extends Packet {
 	}
 	
 	@Override
-	public void readPacketData(DataInputStream in) throws IOException {
+	public void ReadPacketData(DataInputStream in) throws IOException {
 		message = readString(in, 119);
 	}
 	
 	@Override
 	public void writePacketData(DataOutputStream out) throws IOException {
+		
+		out.writeShort(getPacketId());
 		writeString(message, out);
 	}
 	

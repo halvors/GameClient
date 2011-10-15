@@ -26,7 +26,7 @@ public class NetworkManager {
 		}
 	}
 	
-	public void sendPacke(Packet packet, Socket socket) throws IOException {
+	public void sendPacke() throws IOException {
 		Packet current = packetQueue.poll();
 		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 		current.writePacketData(out);
