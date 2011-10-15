@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import main.java.org.halvors.Game.Client.Game;
 import main.java.org.halvors.Game.Client.network.NetworkManager;
-import main.java.org.halvors.Game.Server.network.packet.PacketChat;
+import main.java.org.halvors.Game.Client.network.packet.PacketChat;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
@@ -70,7 +70,7 @@ public class MainWindow extends JFrame {
 	    	if (host != null && port > 0) {
 	    		try {
 	    			networkManager = new NetworkManager(new Socket(host, port));
-	    			networkManager.sendPacket(new PacketChat("This is a chat message."));
+	    			networkManager.sendPacket(new PacketChat("This is a chat message.")); // TODO: Huh?
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
 				} catch (IOException e) {
 					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));

@@ -1,10 +1,10 @@
-package main.java.org.halvors.Game.Server.network.packet;
+package main.java.org.halvors.Game.Client.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import main.java.org.halvors.Game.Server.network.NetworkServerHandler;
+import main.java.org.halvors.Game.Client.network.NetworkClientHandler;
 
 /**
  * Represents a base packet.
@@ -20,13 +20,13 @@ public abstract class Packet {
 	
 	public abstract void writePacketData(DataOutputStream output) throws IOException;
 	
-	public void handlePacket(Packet packet, NetworkServerHandler networkServerHandler) {
+	public void handlePacket(Packet packet, NetworkClientHandler networkClientHandler) {
 		if (packet instanceof PacketLogin) {
-			networkServerHandler.handlePacketLogin((PacketLogin) packet);
+			networkClientHandler.handlePacketLogin((PacketLogin) packet);
 		} else if (packet instanceof PacketChat) {
-			networkServerHandler.handlePacketChat((PacketChat) packet);
+			networkClientHandler.handlePacketChat((PacketChat) packet);
 		} else if (packet instanceof PacketDisconnect) {
-			networkServerHandler.handlePacketDisconnect((PacketDisconnect) packet);
+			networkClientHandler.handlePacketDisconnect((PacketDisconnect) packet);
 		}
 	}
 	

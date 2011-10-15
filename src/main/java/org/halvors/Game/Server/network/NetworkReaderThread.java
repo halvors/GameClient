@@ -4,12 +4,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import main.java.org.halvors.Game.Server.GameServer;
 import main.java.org.halvors.Game.Server.network.packet.Packet;
 import main.java.org.halvors.Game.Server.network.packet.PacketUtil;
 
 public class NetworkReaderThread extends Thread {
-	private final GameServer server = GameServer.getInstance();
 	private final NetworkManager networkManager;
 	private final Socket socket;
 	
@@ -24,7 +22,10 @@ public class NetworkReaderThread extends Thread {
 			
 			while (socket.isConnected()) {
 				Packet packet = PacketUtil.readPacket(input);
-				packet.handlePacket(packet, networkManager.getNetworkServerHandler());
+			
+				if (packet != null && input != null) {
+					packet.handlePacket(packet, networkManager.getNetworkServerHandler());
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

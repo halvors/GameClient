@@ -23,7 +23,7 @@ public class NetworkWriterThread extends Thread {
 			while (socket.isConnected()) {
 				Packet current = networkManager.getPacketQueue().poll();
 				
-				if (current != null) {
+				if (current != null && output != null) {
 					PacketUtil.writePacket(current, output);
 				}
 			}
