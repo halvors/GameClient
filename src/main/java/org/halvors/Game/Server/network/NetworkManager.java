@@ -1,20 +1,22 @@
 package main.java.org.halvors.Game.Server.network;
 
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
+import main.java.org.halvors.Game.Server.GameServer;
 import main.java.org.halvors.Game.Server.network.packet.Packet;
 
 public class NetworkManager {
 	private final Socket socket;
-	private final List<Packet> packetQueue = Collections.synchronizedList(new ArrayList<Packet>());
+	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
+	private final NetworkServerHandler networkServerHandler;
 	private final Thread readThread;
 	private final Thread writeThread;
 	
 	public NetworkManager(Socket socket) {
 		this.socket = socket;
+		this.networkServerHandler = new NetworkServerHandler(GameServer.getInstance(), this);
 		this.readThread = new NetworkReaderThread(this);
         this.writeThread = new NetworkWriterThread(this);
         readThread.start();
@@ -29,5 +31,13 @@ public class NetworkManager {
 
 	public Socket getSocket() {
 		return socket;
+	}
+	
+	public Queue<Packet> getPacketQueue() {
+		return packetQueue;
+	}
+
+	public NetworkServerHandler getNetworkServerHandler() {
+		return networkServerHandler;
 	}
 }

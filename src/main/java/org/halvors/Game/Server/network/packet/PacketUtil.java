@@ -15,10 +15,12 @@ public class PacketUtil {
 		try {
 			return (Packet) clazz.newInstance();
 		} catch (InstantiationException e) {
-			return null;
+			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			return null;
+			e.printStackTrace();
 		}
+		
+		return null;
     }
 	
 	public static Packet readPacket(DataInputStream input) throws IOException {
@@ -39,7 +41,8 @@ public class PacketUtil {
             
             return packet;
         } catch(IOException e) {
-            System.out.println("Reached end of stream");
+            System.out.println("Reached end of stream.");
+            e.printStackTrace();
         }
 		
 		return null;
@@ -103,7 +106,7 @@ public class PacketUtil {
 	}
 	
 	static {
-        addIdClassMapping(1, PacketConnect.class);
+        addIdClassMapping(1, PacketLogin.class);
         addIdClassMapping(2, PacketChat.class);
         addIdClassMapping(255, PacketDisconnect.class);
     }

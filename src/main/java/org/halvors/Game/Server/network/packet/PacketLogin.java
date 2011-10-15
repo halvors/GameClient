@@ -6,11 +6,11 @@ import java.io.IOException;
 
 import main.java.org.halvors.Game.Server.GameServer;
 
-public class PacketConnect extends Packet {
+public class PacketLogin extends Packet {
 	private String username;
 	private String version = GameServer.getInstance().getVersion();
 	
-	public PacketConnect(String username) {
+	public PacketLogin(String username) {
 		this.username = username;
 	}
 	
