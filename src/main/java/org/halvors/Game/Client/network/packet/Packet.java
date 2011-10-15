@@ -9,8 +9,6 @@ import main.java.org.halvors.Game.Client.network.NetworkClientHandler;
 
 /**
  * Represents a base packet.
- * 
- * @author halvors
  */
 public abstract class Packet {
 	private static HashMap<Integer, Class<?>> packetIdToClassMap = new HashMap<Integer, Class<?>>();
@@ -27,13 +25,16 @@ public abstract class Packet {
 			// Read the id form the DataInputStream.
             int id = input.read();
             
+            // Packet's in out system can't be less than 0.
             if (id >= 0) {
             	Packet packet = getNewPacket(id);
-            
+            	
+            	// Check if the packet was found in the HashMap, if not throw an Exception.
             	if (packet == null) {
             		throw new IOException("Bad packet id " + id);
             	}
-            
+            	
+            	// Read the packet data.
             	packet.readPacketData(input);
             
             	return packet;
@@ -82,16 +83,16 @@ public abstract class Packet {
 	 */
 	public static Packet getNewPacket(int id) {
 		try {
-            Class<?> clazz = (Class<?>) packetIdToClassMap.get(id);
-            
-            if (clazz != null) {
-                return (Packet) clazz.newInstance();
-            }
+			Class<?> clazz = packetIdToClassMap.get(id);
+
+			if (clazz != null) {
+	          	return (Packet) clazz.newInstance();
+			}
         } catch(Exception e) {
         	e.printStackTrace();
         }
- 
-        return null;
+		
+		return null;
     }
 	
 	/**
@@ -109,8 +110,8 @@ public abstract class Packet {
             throw new IllegalArgumentException("Duplicate packet class:" + clazz);
         }
         
-        packetIdToClassMap.put(Integer.valueOf(id), clazz);
-        packetClassToIdMap.put(clazz, Integer.valueOf(id));
+        packetIdToClassMap.put(id, clazz);
+        packetClassToIdMap.put(clazz, id);
     }
 }
 
