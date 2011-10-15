@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.network;
+package main.java.org.halvors.Game.Server.network;
 
 public class NetworkReaderThread extends Thread {
 	public NetworkReaderThread() {
