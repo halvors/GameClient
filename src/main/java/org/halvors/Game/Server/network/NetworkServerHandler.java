@@ -33,4 +33,8 @@ public class NetworkServerHandler {;
 		
 		System.out.println(player.getName() + " left the game.");
 	}
+
+	public NetworkManager getNetworkManager() {
+		return networkManager;
+	}
 }

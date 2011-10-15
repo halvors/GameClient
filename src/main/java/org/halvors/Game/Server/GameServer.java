@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Server.entity.Player;
 import main.java.org.halvors.Game.Server.network.NetworkListenThread;
-import main.java.org.halvors.Game.Server.network.NetworkManager;
 
 public class GameServer {
 	private static GameServer instance;

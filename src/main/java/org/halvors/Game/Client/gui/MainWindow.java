@@ -14,20 +14,26 @@ import javax.swing.JTextField;
 
 import main.java.org.halvors.Game.Client.Game;
 import main.java.org.halvors.Game.Client.network.NetworkManager;
+import main.java.org.halvors.Game.Server.network.packet.PacketChat;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
 
 	private final Game client;
-	private final JLabel labelTitle;
-	private final JLabel labelHost;
-	private final JTextField textFieldHost;
-	private final JLabel labelPort;
-	private final JTextField textFieldPort;
-	private final JButton buttonConnect;
+	private final MainWindow window;
+	
+	private NetworkManager networkManager;
+	
+	private JLabel labelTitle;
+	private JLabel labelHost;
+	private JTextField textFieldHost;
+	private JLabel labelPort;
+	private JTextField textFieldPort;
+	private JButton buttonConnect;
 	
 	public MainWindow(Game client) {
 		this.client = client;
+		this.window = this;
 		
 		// Set the window defaults.
 		setTitle(client.getName() + " " + client.getVersion());
@@ -52,7 +58,6 @@ public class MainWindow extends JFrame {
 		add(textFieldHost);
 		add(textFieldPort);
 		add(buttonConnect);
-		pack();
 	}
 	
 	ActionListener actionListener = new ActionListener() {
@@ -64,7 +69,8 @@ public class MainWindow extends JFrame {
 	    	// Check that host and port not is null.
 	    	if (host != null && port > 0) {
 	    		try {
-	    			NetworkManager networkManager = new NetworkManager(new Socket(host, port));
+	    			networkManager = new NetworkManager(new Socket(host, port));
+	    			networkManager.sendPacketWithoutQueuing(new PacketChat("This is a chat message."));
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
 				} catch (IOException e) {
 					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));
