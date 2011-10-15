@@ -31,7 +31,7 @@ public abstract class Packet {
             	Packet packet = getNewPacket(id);
             
             	if (packet == null) {
-            		throw new IOException((new StringBuilder()).append("Bad packet id ").append(id).toString());
+            		throw new IOException("Bad packet id " + id);
             	}
             
             	packet.readPacketData(input);
@@ -102,11 +102,11 @@ public abstract class Packet {
 	 */
 	public static void addIdClassMapping(int id, Class<?> clazz) {
 		if (packetIdToClassMap.containsKey(id)) {
-            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet id:").append(id).toString());
+            throw new IllegalArgumentException("Duplicate packet id:" + id);
         }
 		
         if (packetClassToIdMap.containsKey(clazz)) {
-            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet class:").append(clazz).toString());
+            throw new IllegalArgumentException("Duplicate packet class:" + clazz);
         }
         
         packetIdToClassMap.put(Integer.valueOf(id), clazz);
