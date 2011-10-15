@@ -22,7 +22,7 @@ public abstract class Packet {
 	
 	public void handlePacket(Packet packet, NetworkServerHandler networkServerHandler) {
 		if (packet instanceof PacketLogin) {
-			networkServerHandler.handlePacketLogin((PacketLogin) packet);
+			
 		} else if (packet instanceof PacketChat) {
 			networkServerHandler.handlePacketChat((PacketChat) packet);
 		} else if (packet instanceof PacketDisconnect) {

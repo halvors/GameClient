@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import main.java.org.halvors.Game.Server.network.packet.Packet;
+import main.java.org.halvors.Game.Server.network.packet.PacketLogin;
 import main.java.org.halvors.Game.Server.network.packet.PacketUtil;
 
 public class NetworkReaderThread extends Thread {
@@ -25,7 +26,11 @@ public class NetworkReaderThread extends Thread {
 				packet = PacketUtil.readPacket(input);
 			
 				if (packet != null && input != null) {
-					packet.handlePacket(packet, networkManager.getNetworkServerHandler());
+					if (packet instanceof PacketLogin) {
+						networkManager.getLoginHandler().handleLogin((PacketLogin) packet);
+					} else {
+						packet.handlePacket(packet, networkManager.getNetworkServerHandler());
+					}
 				}
 			}
 		} catch (IOException e) {

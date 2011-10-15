@@ -13,12 +13,12 @@ public class PacketDisconnect extends Packet {
 	
 	@Override
 	public void readPacketData(DataInputStream input) throws IOException {
-		reason = PacketUtil.readString(input, 100);
+		reason = input.readUTF();
 	}
 
 	@Override
 	public void writePacketData(DataOutputStream output) throws IOException {
-		PacketUtil.writeString(reason, output);
+		output.writeUTF(reason);
 	}
 	
 	public int getPacketSize() {

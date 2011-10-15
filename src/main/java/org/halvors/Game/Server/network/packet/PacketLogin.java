@@ -16,14 +16,14 @@ public class PacketLogin extends Packet {
 	
 	@Override
 	public void readPacketData(DataInputStream input) throws IOException {
-		username = PacketUtil.readString(input, 16);
-		version = PacketUtil.readString(input, 16);
+		username = input.readUTF();
+		version = input.readUTF();
 	}
 
 	@Override
 	public void writePacketData(DataOutputStream output) throws IOException {
-		PacketUtil.writeString(username, output);
-		PacketUtil.writeString(version, output);
+		output.writeUTF(username);
+		output.writeUTF(version);
 	}
 	
 	public int getPacketSize() {
