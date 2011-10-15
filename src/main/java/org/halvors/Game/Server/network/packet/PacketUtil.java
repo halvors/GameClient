@@ -10,19 +10,22 @@ public class PacketUtil {
     private static HashMap<Class<?>, Integer> packetClassToIdMap = new HashMap<Class<?>, Integer>();
     
 	public static Packet getNewPacket(int id) {
-		try {
-            Class<?> clazz = (Class<?>) packetIdToClassMap.get(id);
-            
-            if (clazz != null) {
-                return (Packet) clazz.newInstance();
-            }
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
-            
-//        System.out.println((new StringBuilder()).append("Skipping packet with id ").append(id).toString());
-            
-        return null;
+		return new PacketChat("test");
+//		
+//		try {
+//			
+//            Class<?> clazz = (Class<?>) packetIdToClassMap.get(id);
+//            
+//            if (clazz != null) {
+//                return (Packet) clazz.newInstance();
+//            }
+//        } catch(Exception e) {
+//        	e.printStackTrace();
+//        }
+//            
+////        System.out.println((new StringBuilder()).append("Skipping packet with id ").append(id).toString());
+//            
+//        return null;
     }
 	
 	public static Packet readPacket(DataInputStream input) throws IOException {
