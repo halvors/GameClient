@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import main.java.org.halvors.Game.Client.network.packet.Packet;
+import main.java.org.halvors.Game.Server.network.packet.Packet;
 
 public class NetworkManager {
 	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
