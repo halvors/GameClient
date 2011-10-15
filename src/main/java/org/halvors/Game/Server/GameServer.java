@@ -1,6 +1,8 @@
 package main.java.org.halvors.Game.Server;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,28 +10,51 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.java.org.halvors.Game.Server.entity.Player;
+import main.java.org.halvors.Game.Server.network.NetworkListenThread;
+import main.java.org.halvors.Game.Server.network.NetworkManager;
 
-public class Server {
-	private static Server instance;
+public class GameServer {
+	private static GameServer instance;
+	
+	private final String name = "Game";
+	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
 	private final Configuration configuration = new Configuration(this, new File("server.properties"));
-	private final NetworkManager networkManager = new NetworkManager(this);
-	
 	private final List<World> worlds = new ArrayList<World>();
 	private final List<Player> players = new ArrayList<Player>();
 	
-	public Server() {
-		Server.instance = this;
+	private Thread thread;
+	
+	public GameServer() {
+		GameServer.instance = this;
 	}
 	
 	public void main(String[] args) {
-		// Create the NetworkManager.
-		networkManager.listen(configuration.port);
+		String host = "0.0.0.0";
+		int port = 7846;
+		
+		// Check if host is greater than 0.
+		if (host.length() > 0 && port > 0) {
+			try {
+				thread = new NetworkListenThread(this, InetAddress.getByName(host), port);
+				thread.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public static Server getInstance() {
+	public static GameServer getInstance() {
 		return instance;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 	
 	public Logger getLogger() {
@@ -114,9 +139,5 @@ public class Server {
 
 	public Configuration getConfiguration() {
 		return configuration;
-	}
-	
-	public NetworkManager getNetworkManager() {
-		return networkManager;
 	}
 }

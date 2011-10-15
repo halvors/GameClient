@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.packet;
+package main.java.org.halvors.Game.Client.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 
 public class PacketChat extends Packet {
-	private String message;
+	public String message;
 
 	public PacketChat(String s) {
 		if (s.length() > 119) {
@@ -17,7 +17,7 @@ public class PacketChat extends Packet {
 	}
 	
 	@Override
-	public void ReadPacketData(DataInputStream in) throws IOException {
+	public void readPacketData(DataInputStream in) throws IOException {
 		message = readString(in, 119);
 	}
 	
@@ -27,12 +27,6 @@ public class PacketChat extends Packet {
 		out.writeShort(getPacketId());
 		writeString(message, out);
 	}
-	
-	/*
-	public void processPacket(NetHandler nethandler) {
-		nethandler.handleChat(this);
-	}
-	*/
 	
 	public int getPacketSize() {
 		return message.length();

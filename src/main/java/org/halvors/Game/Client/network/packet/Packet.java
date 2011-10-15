@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.packet;
+package main.java.org.halvors.Game.Client.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -26,9 +26,21 @@ public abstract class Packet {
 	public int getPacketId() {
 		return packetClassToIdMap.get(getClass());
 	}
-	//public class getpacket(int id) {
-	//	return packetIdToClassMap.get(id);
-	//}
+
+	
+	public void readPacket(DataInputStream in) {
+		
+	}
+	
+	public void writePacket(DataOutputStream out) {
+		
+	}
+	
+	public abstract void readPacketData(DataInputStream in) throws IOException;
+	
+	public abstract void writePacketData(DataOutputStream out) throws IOException;
+	
+
 	public static String readString(DataInputStream in, int i) throws IOException {
 		short word0 = in.readShort();
 		
@@ -61,17 +73,15 @@ public abstract class Packet {
 			
 		}
     }
-	public abstract void ReadPacketData(DataInputStream in) throws IOException;
+	
 	public static Packet ReadPacket(DataInputStream in) throws IOException
 	{
 		int id = in.read();
 		Packet packet = getNewPacket(id);
 		
-		packet.ReadPacketData(in);
+		packet.readPacketData(in);
 		return packet;
 	}
-	
-	public abstract void writePacketData(DataOutputStream out) throws IOException;
 	
 	public static void writeString(String s, DataOutputStream out) throws IOException {
 		if(s.length() > 32767) {
