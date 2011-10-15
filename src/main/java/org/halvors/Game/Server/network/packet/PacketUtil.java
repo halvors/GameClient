@@ -22,11 +22,27 @@ public class PacketUtil {
     }
 	
 	public static Packet readPacket(DataInputStream input) throws IOException {
-		int id = input.read();
-		Packet packet = getNewPacket(id);
-		packet.readPacketData(input); // TODO: NullPointerException here ;(
+		try {
+            int id = input.read();
+            
+            if (id == -1) {
+                return null;
+            }
+            
+            Packet packet = getNewPacket(id);
+            
+            if (packet == null) {
+                throw new IOException((new StringBuilder()).append("Bad packet id ").append(id).toString());
+            }
+            
+            packet.readPacketData(input);
+            
+            return packet;
+        } catch(IOException e) {
+            System.out.println("Reached end of stream");
+        }
 		
-		return packet;
+		return null;
 	}
 	
     public static void writePacket(Packet packet, DataOutputStream output) throws IOException {
