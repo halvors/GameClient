@@ -14,7 +14,6 @@ import main.java.org.halvors.Game.Server.GameServer;
 public class NetworkListenThread extends Thread {
 	private final GameServer server;
 	private final ServerSocket serverSocket;
-	
 	private final List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
 	
 	public NetworkListenThread(GameServer server, InetAddress address, int port) throws IOException {
@@ -38,5 +37,9 @@ public class NetworkListenThread extends Thread {
 	
 	public ServerSocket getServerSocket() {
 		return serverSocket;
+	}
+
+	public List<Socket> getClients() {
+		return clients;
 	}
 }

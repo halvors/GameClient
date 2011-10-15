@@ -21,4 +21,8 @@ public class NetworkManager {
         	packetQueue.add(packet);
         }
     }
+
+	public Socket getSocket() {
+		return socket;
+	}
 }

@@ -3,8 +3,36 @@ package main.java.org.halvors.Game.Server.network.packet;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class PacketUtil {
+	private static HashMap<Integer, Class<?>> packetIdToClassMap = new HashMap<Integer, Class<?>>();
+    private static HashMap<Class<?>, Integer> packetClassToIdMap = new HashMap<Class<?>, Integer>();
+    
+	public static Packet getNewPacket(int id) {
+		Class<?> clazz = packetIdToClassMap.get(id);
+		
+		try {
+			return (Packet) clazz.newInstance();
+		} catch (InstantiationException e) {
+			return null;
+		} catch (IllegalAccessException e) {
+			return null;
+		}
+    }
+	
+	public static Packet readPacket(DataInputStream in) throws IOException {
+		int id = in.read();
+		Packet packet = getNewPacket(id);
+		packet.readPacketData(in);
+		
+		return packet;
+	}
+	
+	public static Packet writePacket(DataOutputStream out) throws IOException {
+		return null;
+	}
+	
 	public static String readString(DataInputStream input, int i) throws IOException {
 		short word = input.readShort();
 		
@@ -26,7 +54,7 @@ public class PacketUtil {
 	}
 	
 	public static void writeString(String s, DataOutputStream output) throws IOException {
-		if(s.length() > 32767) {
+		if (s.length() > 32767) {
 			throw new IOException("String too big");
 	    } else {
 	    	output.writeShort(s.length());
@@ -35,4 +63,31 @@ public class PacketUtil {
 	        return;
 	    }
 	}
+	
+	public static void addIdClassMapping(int id, Class<?> clazz) {
+		if (packetIdToClassMap.containsKey(id)) {
+            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet id:").append(id).toString());
+        }
+		
+        if (packetClassToIdMap.containsKey(clazz)) {
+            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet class:").append(clazz).toString());
+        }
+        
+        packetIdToClassMap.put(id, clazz);
+        packetClassToIdMap.put(clazz, Integer.valueOf(id));
+    }
+	
+	public static Class<?> getClassFromId(int id) {
+		return packetIdToClassMap.get(id);
+	}
+	
+	public static int getIdFromClass(Class<?> clazz) {
+		return packetClassToIdMap.get(clazz);
+	}
+	
+	static {
+        addIdClassMapping(1, PacketConnect.class);
+        addIdClassMapping(2, PacketChat.class);
+        addIdClassMapping(255, PacketDisconnect.class);
+    }
 }
