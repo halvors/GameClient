@@ -93,14 +93,16 @@ public abstract class Packet {
 		try {
             Class<?> clazz = (Class<?>) packetIdToClassMap.get(id);
             
-            if (clazz != null) {
+            if (clazz == null) {
+            	return null;
+            } else {
                 return (Packet) clazz.newInstance();
             }
         } catch(Exception e) {
         	e.printStackTrace();
         }
- 
-        return null;
+		
+		return null;
     }
 	
 	/**
@@ -111,14 +113,14 @@ public abstract class Packet {
 	 */
 	public static void addIdClassMapping(int id, Class<?> clazz) {
 		if (packetIdToClassMap.containsKey(id)) {
-            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet id:").append(id).toString());
+            throw new IllegalArgumentException("Duplicate packet id:" + id);
         }
 		
         if (packetClassToIdMap.containsKey(clazz)) {
-            throw new IllegalArgumentException((new StringBuilder()).append("Duplicate packet class:").append(clazz).toString());
+            throw new IllegalArgumentException("Duplicate packet class:" + clazz);
         }
         
-        packetIdToClassMap.put(Integer.valueOf(id), clazz);
-        packetClassToIdMap.put(clazz, Integer.valueOf(id));
+        packetIdToClassMap.put(id, clazz);
+        packetClassToIdMap.put(clazz, id);
     }
 }
