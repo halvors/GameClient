@@ -14,21 +14,21 @@ import main.java.org.halvors.Game.Server.network.packet.PacketChat;
 import main.java.org.halvors.Game.Server.network.packet.PacketUtil;
 
 public class NetworkReaderThread extends Thread {
-	public NetworkReaderThread() {
-		
+	public NetworkReaderThread(NetworkManager netmngr) {
+		networkmanager = netmngr;
 	}
+	NetworkManager networkmanager;
 	//private final List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
 	public void run() {
 		// TODO: Read packets from socket here.
 		while(true)
 		{
-			for(int i = 0; i < 0; i++)
-			{
+			
 				if(GameServer.getInstance().getNetworkListenThread() != null)
 				{
 					DataInputStream dis;
 					try {
-						dis = new DataInputStream(GameServer.getInstance().getNetworkListenThread().getClients().get(i).getInputStream());
+						dis = new DataInputStream(networkmanager.getSocket().getInputStream());
 					} catch (IOException e) {
 						dis = null;
 						e.printStackTrace();
@@ -47,7 +47,7 @@ public class NetworkReaderThread extends Thread {
 						
 					}
 				}
-			}
+			
 		}
 		
 		}
