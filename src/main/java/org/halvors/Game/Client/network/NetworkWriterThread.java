@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 import main.java.org.halvors.Game.Client.network.packet.Packet;
-import main.java.org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class NetworkWriterThread extends Thread {
 	private final NetworkManager networkManager;
@@ -19,12 +18,13 @@ public class NetworkWriterThread extends Thread {
 	public void run() {
 		try {
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			Packet packet = null;
 			
 			while (socket.isConnected()) {
-				Packet current = networkManager.getPacketQueue().poll();
+				packet = networkManager.getPacketQueue().poll();
 				
-				if (current != null && output != null) {
-					PacketUtil.writePacket(current, output);
+				if (packet != null && output != null) {
+					packet.writePacket(packet, output);
 				}
 			}
 		} catch (IOException e) {
