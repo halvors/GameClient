@@ -3,7 +3,9 @@ package main.java.org.halvors.Game.Client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import main.java.org.halvors.Game.Client.gui.MainWindow;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 public class Game {
 	private static Game instance;
@@ -17,9 +19,14 @@ public class Game {
 		Game.instance = this;	
 	}
 	
-	public void main(String[] args) {
-		// Create the menu.
-		MainWindow mainWindow = new MainWindow(this);
+	public void start() {
+		try {
+			Display.setDisplayMode(new DisplayMode(800, 600));
+			Display.create();
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 	}
 	
 	public static Game getInstance() {

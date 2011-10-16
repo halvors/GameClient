@@ -2,5 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/asm-debug-all.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lwjgl_test.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="/home/halvors/Prosjekter/Game/Game/lib/lzma.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>

@@ -3,9 +3,9 @@ package main.java.org.halvors.Game.Client;
 public class Main {
 	public static void main(String[] args) {
 		try {
-			// Start the client.
-			Game client = new Game();
-			client.main(args);
+			// Start the game.
+			Game game = new Game();
+			game.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import main.java.org.halvors.Game.Client.Game;
 import main.java.org.halvors.Game.Client.network.NetworkManager;
-import main.java.org.halvors.Game.Client.network.packet.PacketChat;
+import main.java.org.halvors.Game.Client.network.packet.PacketLogin;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
@@ -24,7 +24,8 @@ public class MainWindow extends JFrame {
 	
 	private NetworkManager networkManager;
 	
-	private JLabel labelTitle;
+	private JLabel labelUsername;
+	private JTextField textFieldUsername;
 	private JLabel labelHost;
 	private JTextField textFieldHost;
 	private JLabel labelPort;
@@ -43,7 +44,9 @@ public class MainWindow extends JFrame {
 		setLayout(new FlowLayout());
 		
 		// Create and set properties to the widgets.
-		labelTitle = new JLabel("Please enter host and port in the textfields. ");
+		labelUsername = new JLabel("Username: ");
+		textFieldUsername = new JTextField(20);
+		textFieldUsername.setText("Player");
 		labelHost = new JLabel("Host: ");
 		textFieldHost = new JTextField(20);
 		textFieldHost.setText("127.0.0.1");
@@ -54,8 +57,11 @@ public class MainWindow extends JFrame {
 		buttonConnect.addActionListener(actionListener);
 
 		// Add the widgets to the extended JFrame.
-		add(labelTitle);
+		add(labelUsername);
+		add(textFieldUsername);
+		add(labelHost);
 		add(textFieldHost);
+		add(labelPort);
 		add(textFieldPort);
 		add(buttonConnect);
 	}
@@ -63,21 +69,26 @@ public class MainWindow extends JFrame {
 	ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
+			String username =  textFieldUsername.getText();
 	    	String host = textFieldHost.getText();
 	    	int port = Integer.parseInt(textFieldPort.getText());
 	    	
 	    	// Check that host and port not is null.
-	    	if (host != null && port > 0) {
+	    	if (username != null && host != null && port > 0) {
 	    		try {
+	    			// Connect to the server.
 	    			networkManager = new NetworkManager(new Socket(host, port));
-	    			networkManager.sendPacket(new PacketChat("This is a chat message.")); // TODO: Huh?
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
+	    			
+	    			// Send the login packet.
+	    			networkManager.sendPacket(new PacketLogin(username, client.getVersion()));
+	    			client.log(Level.INFO, "Logging in...");
 				} catch (IOException e) {
 					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));
 					e.printStackTrace();
 				}
 	    	} else {
-	    		client.log(Level.WARNING, "Invalid host or port.");
+	    		client.log(Level.WARNING, "Invalid host, port or username.");
 	    	}
 	    }
 	};
