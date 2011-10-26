@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client;
+package org.halvors.Game.Client;
 
 import java.util.Random;
 import java.util.UUID;

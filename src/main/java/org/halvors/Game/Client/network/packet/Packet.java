@@ -1,11 +1,11 @@
-package main.java.org.halvors.Game.Client.network.packet;
+package org.halvors.Game.Client.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import main.java.org.halvors.Game.Client.network.NetworkClientHandler;
+import org.halvors.Game.Client.network.NetworkClientHandler;
 
 /**
  * Represents a base packet.

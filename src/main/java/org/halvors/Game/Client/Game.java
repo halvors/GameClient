@@ -1,9 +1,9 @@
-package main.java.org.halvors.Game.Client;
+package org.halvors.Game.Client;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import main.java.org.halvors.Game.Client.gui.MainWindow;
+import org.halvors.Game.Client.gui.MainWindow;
 
 public class Game {
 	private static Game instance;

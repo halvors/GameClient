@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client;
+package org.halvors.Game.Client;
 
 public class Location {
 	private final World world;

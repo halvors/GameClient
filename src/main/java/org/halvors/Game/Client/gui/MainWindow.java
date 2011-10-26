@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.gui;
+package org.halvors.Game.Client.gui;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -12,9 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import main.java.org.halvors.Game.Client.Game;
-import main.java.org.halvors.Game.Client.network.NetworkManager;
-import main.java.org.halvors.Game.Client.network.packet.PacketLogin;
+import org.halvors.Game.Client.Game;
+import org.halvors.Game.Client.network.NetworkManager;
+import org.halvors.Game.Client.network.packet.PacketLogin;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;

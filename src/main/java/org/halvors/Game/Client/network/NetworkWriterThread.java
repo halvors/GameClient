@@ -1,10 +1,10 @@
-package main.java.org.halvors.Game.Client.network;
+package org.halvors.Game.Client.network;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import main.java.org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.network.packet.Packet;
 
 public class NetworkWriterThread extends Thread {
 	private final NetworkManager networkManager;

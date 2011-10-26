@@ -1,11 +1,11 @@
-package main.java.org.halvors.Game.Client.network;
+package org.halvors.Game.Client.network;
 
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import main.java.org.halvors.Game.Client.Game;
-import main.java.org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.Game;
+import org.halvors.Game.Client.network.packet.Packet;
 
 public class NetworkManager {
 	private final Socket socket;

@@ -1,4 +1,4 @@
-package main.java.org.halvors.Game.Client.network.packet;
+package org.halvors.Game.Client.network.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
