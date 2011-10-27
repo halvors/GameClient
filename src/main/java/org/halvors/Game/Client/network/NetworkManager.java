@@ -1,5 +1,6 @@
 package org.halvors.Game.Client.network;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -30,6 +31,11 @@ public class NetworkManager {
         	packetQueue.add(packet);
         }
     }
+	
+	public void disconnect() throws IOException {
+		// TODO: Maybe do some more here.
+		socket.close();
+	}
 
 	public Game getClient() {
 		return client;

@@ -1,5 +1,6 @@
 package org.halvors.Game.Client.network;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import org.halvors.Game.Client.Game;
@@ -20,20 +21,23 @@ public class NetworkClientHandler {
 	}
 	
 	public void handlePacketLogin(PacketLogin packet) {
-		client.log(Level.INFO, "Succesfully logged in.");
-		
 		if (chat == null) {
 			chat = new Chat(client);
 		}
+		
+		client.log(Level.INFO, "Succesfully logged in.");
 	}
 	
 	public void handlePacketChat(PacketChat packet) {
-		client.log(Level.INFO, packet.getMessage());
 		chat.showMessage(packet.getMessage());
+		
+		client.log(Level.INFO, packet.getMessage());
 	}
 	
-	public void handlePacketDisconnect(PacketDisconnect packet) {
+	public void handlePacketDisconnect(PacketDisconnect packet) throws IOException {
+		networkManager.disconnect();
 		
+		client.log(Level.INFO, packet.getReason());
 	}
 
 	public NetworkManager getNetworkManager() {

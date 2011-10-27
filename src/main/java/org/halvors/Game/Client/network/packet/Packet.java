@@ -65,7 +65,7 @@ public abstract class Packet {
 		return packetClassToIdMap.get(getClass());
 	}
 	
-	public void handlePacket(Packet packet, NetworkClientHandler networkClientHandler) {
+	public void handlePacket(Packet packet, NetworkClientHandler networkClientHandler) throws IOException {
 		if (packet instanceof PacketLogin) {
 			networkClientHandler.handlePacketLogin((PacketLogin) packet);
 		} else if (packet instanceof PacketChat) {
