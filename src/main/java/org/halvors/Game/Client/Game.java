@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.halvors.Game.Client.gui.MainWindow;
+import org.halvors.Game.Client.network.NetworkManager;
 
 public class Game {
 	private static Game instance;
@@ -12,6 +13,8 @@ public class Game {
 	private final String version = "0.0.1";
 	
 	private final Logger logger = Logger.getLogger("Game");
+	
+	private NetworkManager networkManager;
 	
 	public Game() {
 		Game.instance = this;	
@@ -39,5 +42,15 @@ public class Game {
 	
 	public void log(Level level, String message) {
 		logger.log(level, message);
+	}
+
+	public NetworkManager setNetworkManager(NetworkManager networkManager) {
+		this.networkManager = networkManager;
+		
+		return networkManager;
+	}
+
+	public NetworkManager getNetworkManager() {
+		return networkManager;
 	}
 }

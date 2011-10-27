@@ -18,7 +18,7 @@ public class NetworkManager {
 	public NetworkManager(Game client, Socket socket) {
 		this.client = client;
 		this.socket = socket;
-		this.networkClientHandler = new NetworkClientHandler(Game.getInstance(), this);
+		this.networkClientHandler = new NetworkClientHandler(client, this);
 		this.readerThread = new ReaderThread("Reader thread", this);
 		this.writerThread = new WriterThread("Writer thread", this);
 		readerThread.start();
