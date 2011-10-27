@@ -11,7 +11,7 @@ public class PacketChat extends Packet {
 		
 	}
 	
-	public PacketChat(String message) {
+	public PacketChat(String message) {	
 		this.message = message;
 	}
 	
@@ -27,5 +27,13 @@ public class PacketChat extends Packet {
 	
 	public int getPacketSize() {
 		return message.length();
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

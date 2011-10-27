@@ -8,17 +8,19 @@ import org.halvors.Game.Client.Game;
 import org.halvors.Game.Client.network.packet.Packet;
 
 public class NetworkManager {
+	private final Game client;
 	private final Socket socket;
 	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
 	private final NetworkClientHandler networkClientHandler;
 	private final Thread readerThread;
 	private final Thread writerThread;
 	
-	public NetworkManager(Socket socket) {
+	public NetworkManager(Game client, Socket socket) {
+		this.client = client;
 		this.socket = socket;
 		this.networkClientHandler = new NetworkClientHandler(Game.getInstance(), this);
-		this.readerThread = new NetworkReaderThread(this);
-		this.writerThread = new NetworkWriterThread(this);
+		this.readerThread = new ReaderThread("Reader thread", this);
+		this.writerThread = new WriterThread("Writer thread", this);
 		readerThread.start();
 		writerThread.start();
 	}
@@ -29,6 +31,10 @@ public class NetworkManager {
         }
     }
 
+	public Game getClient() {
+		return client;
+	}
+	
 	public Socket getSocket() {
 		return socket;
 	}
