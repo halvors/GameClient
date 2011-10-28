@@ -21,9 +21,7 @@ public class NetworkClientHandler {
 	}
 	
 	public void handlePacketLogin(PacketLogin packet) {
-		if (chat == null) {
-			chat = new Chat(client);
-		}
+		chat = new Chat(client);
 		
 		client.log(Level.INFO, "Succesfully logged in.");
 	}

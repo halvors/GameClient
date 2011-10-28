@@ -3,7 +3,7 @@ package org.halvors.Game.Client.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,7 +37,7 @@ public class Chat extends JFrame {
 		setSize(800, 600);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout());
+		setLayout(new FlowLayout());
 		
 		// Create and set properties to the widgets.
 		JPanel chatPane = new JPanel(new BorderLayout());
