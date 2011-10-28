@@ -13,8 +13,8 @@ public class NetworkManager {
 	private final Socket socket;
 	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
 	private final NetworkClientHandler networkClientHandler;
-	private final Thread readerThread;
-	private final Thread writerThread;
+	private final ReaderThread readerThread;
+	private final WriterThread writerThread;
 	
 	public NetworkManager(Game client, Socket socket) {
 		this.client = client;

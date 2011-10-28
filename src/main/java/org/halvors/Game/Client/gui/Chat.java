@@ -19,8 +19,8 @@ import org.halvors.Game.Client.network.NetworkManager;
 import org.halvors.Game.Client.network.packet.PacketChat;
 
 public class Chat extends JFrame {
-	private static final long serialVersionUID = -7295614566043922732L;
-
+	private static final long serialVersionUID = 6976542337409557975L;
+	
 	private final Game client;
 	private final NetworkManager networkManager;
 	
