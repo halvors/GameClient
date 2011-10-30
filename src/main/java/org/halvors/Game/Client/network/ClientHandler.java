@@ -9,13 +9,13 @@ import org.halvors.Game.Client.network.packet.PacketChat;
 import org.halvors.Game.Client.network.packet.PacketDisconnect;
 import org.halvors.Game.Client.network.packet.PacketLogin;
 
-public class NetworkClientHandler {
+public class ClientHandler {
 	private final Game client;
 	private final NetworkManager networkManager;
 	
 	private Chat chat;
 	
-	public NetworkClientHandler(Game client, NetworkManager networkManager) {
+	public ClientHandler(Game client, NetworkManager networkManager) {
 		this.client = client;
 		this.networkManager = networkManager;
 	}

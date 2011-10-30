@@ -3,10 +3,9 @@ package org.halvors.Game.Client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 
 public class Game {
 	private static Game instance;
@@ -23,18 +22,18 @@ public class Game {
 	}
 	
 	public void main(String[] args) throws LWJGLException {
-//		MainWindow mainWindow = new MainWindow(this);
+		MainWindow mainWindow = new MainWindow(this);
 		
-		Display.setDisplayMode(new DisplayMode(800, 600));
-		Display.setTitle(name + " " + version);
-		Display.create();
-		
-		while (!Display.isCloseRequested()) {
-			// TODO: Render OpenGL here
-			Display.update();
-		}
-		
-		Display.destroy();
+//		Display.setDisplayMode(new DisplayMode(800, 600));
+//		Display.setTitle(name + " " + version);
+//		Display.create();
+//		
+//		while (!Display.isCloseRequested()) {
+//			// TODO: Render OpenGL here
+//			Display.update();
+//		}
+//		
+//		Display.destroy();
 	}
 	
 	public static Game getInstance() {

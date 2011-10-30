@@ -12,14 +12,14 @@ public class NetworkManager {
 	private final Game client;
 	private final Socket socket;
 	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
-	private final NetworkClientHandler networkClientHandler;
+	private final ClientHandler clientHandler;
 	private final ReaderThread readerThread;
 	private final WriterThread writerThread;
 	
 	public NetworkManager(Game client, Socket socket) {
 		this.client = client;
 		this.socket = socket;
-		this.networkClientHandler = new NetworkClientHandler(client, this);
+		this.clientHandler = new ClientHandler(client, this);
 		this.readerThread = new ReaderThread("Reader thread", this);
 		this.writerThread = new WriterThread("Writer thread", this);
 		readerThread.start();
@@ -49,7 +49,7 @@ public class NetworkManager {
 		return packetQueue;
 	}
 
-	public NetworkClientHandler getNetworkClientHandler() {
-		return networkClientHandler;
+	public ClientHandler getClientHandler() {
+		return clientHandler;
 	}
 }
