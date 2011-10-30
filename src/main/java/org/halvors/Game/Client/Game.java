@@ -11,7 +11,7 @@ public class Game {
 	private static Game instance;
 	
 	private final String name = "Game";
-	private final String version = "0.0.1";
+	private final String version = "0.0.2";
 	
 	private final Logger logger = Logger.getLogger("Game");
 	
