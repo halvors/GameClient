@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class WriterThread extends Thread {
 	private final NetworkManager networkManager;
@@ -26,7 +27,7 @@ public class WriterThread extends Thread {
 				packet = networkManager.getPacketQueue().poll();
 				
 				if (packet != null && output != null) {
-					packet.writePacket(packet, output);
+					PacketUtil.writePacket(packet, output);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
