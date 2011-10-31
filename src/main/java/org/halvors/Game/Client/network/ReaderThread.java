@@ -2,31 +2,28 @@ package org.halvors.Game.Client.network;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 import org.halvors.Game.Client.network.packet.Packet;
 import org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class ReaderThread extends Thread {
 	private final NetworkManager networkManager;
-	private final Socket socket;
 	
 	public ReaderThread(String name, NetworkManager networkManager) {
 		super(name);
 		this.networkManager = networkManager;
-		this.socket = networkManager.getSocket();
 	}
 	
+	@Override
 	public void run() {
-		DataInputStream input = null;
+		DataInputStream input = networkManager.getInput();
 		Packet packet = null;
 		
-		while (socket.isConnected()) {
+		while (networkManager.isRunning()) {
 			try {
-				input = new DataInputStream(socket.getInputStream());
 				packet = PacketUtil.readPacket(input);
 			
-				if (packet != null && input != null) {
+				if (input != null && packet != null) {
 					PacketUtil.handlePacket(packet, networkManager.getClientHandler());
 				}
 			} catch (IOException e) {

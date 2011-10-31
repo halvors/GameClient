@@ -33,9 +33,9 @@ public class ClientHandler {
 	}
 	
 	public void handlePacketDisconnect(PacketDisconnect packet) throws IOException {
-		networkManager.disconnect();
+		networkManager.close();
 		
-		client.log(Level.INFO, packet.getReason());
+		client.log(Level.INFO, "Disconnected: " + packet.getReason());
 	}
 
 	public NetworkManager getNetworkManager() {
