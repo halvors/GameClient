@@ -77,7 +77,8 @@ public class MainWindow extends JFrame {
 	    	if (username != null && host != null && port > 0) {
 	    		try {
 	    			// Connect to the server.
-	    			networkManager = client.setNetworkManager(new NetworkManager(client, new Socket(host, port)));
+	    			networkManager = new NetworkManager(client, new Socket(host, port));
+	    			client.setNetworkManager(networkManager);
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
 	    			
 	    			// Send the login packet.
