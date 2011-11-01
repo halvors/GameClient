@@ -8,15 +8,16 @@ import org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class ReaderThread extends Thread {
 	private final NetworkManager networkManager;
+	private final DataInputStream input;
 	
 	public ReaderThread(String name, NetworkManager networkManager) {
 		super(name);
 		this.networkManager = networkManager;
+		this.input = networkManager.getInput();
 	}
 	
 	@Override
 	public void run() {
-		DataInputStream input = networkManager.getInput();
 		Packet packet = null;
 		
 		while (networkManager.isRunning()) {

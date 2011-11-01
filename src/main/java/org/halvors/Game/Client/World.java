@@ -7,7 +7,7 @@ public class World {
 	private final Random random = new Random();
 	private final String name;
 	private final UUID id = UUID.randomUUID();
-	private Location spawnLocation = new Location(this, random.nextInt(), random.nextInt(), random.nextInt());
+	private Location spawnLocation = new Location(this, random.nextInt(), random.nextInt(), random.nextInt(), 0, 0);
 	
 	public World(String name) {
 		this.name = name;

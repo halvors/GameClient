@@ -31,6 +31,7 @@ public class MainWindow extends JFrame {
 	private JLabel labelPort;
 	private JTextField textFieldPort;
 	private JButton buttonConnect;
+	private JButton buttonDisconnect;
 	
 	public MainWindow(Game client) {
 		this.client = client;
@@ -54,7 +55,10 @@ public class MainWindow extends JFrame {
 		textFieldPort = new JTextField(20);
 		textFieldPort.setText("7846");
 		buttonConnect = new JButton("Connect");
-		buttonConnect.addActionListener(actionListener);
+		buttonConnect.addActionListener(connectActionListener);
+		buttonDisconnect = new JButton("Disconnect");
+		buttonDisconnect.addActionListener(disconnectActionListener);
+		buttonDisconnect.setVisible(false);
 
 		// Add the widgets to the extended JFrame.
 		add(labelUsername);
@@ -64,9 +68,10 @@ public class MainWindow extends JFrame {
 		add(labelPort);
 		add(textFieldPort);
 		add(buttonConnect);
+		add(buttonDisconnect);
 	}
 	
-	ActionListener actionListener = new ActionListener() {
+	ActionListener connectActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 			String username =  textFieldUsername.getText();
@@ -80,6 +85,7 @@ public class MainWindow extends JFrame {
 	    			networkManager = new NetworkManager(client, new Socket(host, port));
 	    			client.setNetworkManager(networkManager);
 	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
+	    			buttonDisconnect.setVisible(true);
 	    			
 	    			// Send the login packet.
 	    			networkManager.sendPacket(new PacketLogin(username, client.getVersion()));
@@ -91,6 +97,21 @@ public class MainWindow extends JFrame {
 	    	} else {
 	    		client.log(Level.WARNING, "Invalid host, port or username.");
 	    	}
+	    }
+	};
+	
+	ActionListener disconnectActionListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			if (networkManager.isRunning()) {
+				try {
+					client.log(Level.INFO, "Disconnected from server.");
+					
+					networkManager.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	    }
 	};
 }

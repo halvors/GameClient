@@ -3,6 +3,7 @@ package org.halvors.Game.Client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -31,9 +32,9 @@ public class Game {
 	}
 	
 	public void main(String[] args) throws LWJGLException {
-//		MainWindow mainWindow = new MainWindow(this);
+		MainWindow mainWindow = new MainWindow(this);
 		
-		initialize();
+//		initialize();
 	}
 	
 	private void initialize() throws LWJGLException {
@@ -85,7 +86,6 @@ public class Game {
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(x - 50, y + 50);
 		GL11.glVertex2f(x + 50, y + 50);
-		GL11.glVertex2f(x, y);
 		GL11.glVertex2f(x - 50, y - 50);
 		GL11.glVertex2f(x + 50, y - 50);
 		GL11.glEnd();
