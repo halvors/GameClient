@@ -21,7 +21,7 @@ public class PacketUtil {
             }
             
             // Read the packet data.
-            packet.readPacketData(input);
+            packet.readData(input);
             
             return packet;
         }
@@ -31,7 +31,7 @@ public class PacketUtil {
 	
     public static void writePacket(Packet packet, DataOutputStream output) throws IOException {
         output.write(packet.getPacketId());
-        packet.writePacketData(output);
+        packet.writeData(output);
     }
     
     /**
@@ -39,18 +39,31 @@ public class PacketUtil {
      * 
      * @param packet
      * @param handler
+     * @throws IOException 
      */
-    public static void handlePacket(Packet packet, ClientHandler handler) throws IOException {
+	public static void handlePacket(Packet packet, ClientHandler handler) throws IOException {
 		PacketType type = packet.getPacketType();
 		
-		// Detect PacketType and handle its right way :D
+		// Detect PacketType and handle it in the right way :D
 		switch (type) {
 		case PacketLogin:
 			handler.handlePacketLogin((PacketLogin) packet);
 			break;
-			
+		
 		case PacketChat:
 			handler.handlePacketChat((PacketChat) packet);
+			break;
+			
+		case PacketWorld:
+			handler.handlePacketWorld((PacketWorld) packet);
+			break;
+			
+		case PacketEntity:
+			handler.handlePacketEntity((PacketEntity) packet);
+			break;
+			
+		case PacketSpawnLocation:
+			handler.handlePacketSpawnLocation((PacketSpawnLocation) packet);
 			break;
 
         case PacketDisconnect:

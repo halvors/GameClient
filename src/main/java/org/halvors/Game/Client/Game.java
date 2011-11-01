@@ -1,5 +1,6 @@
 package org.halvors.Game.Client;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ public class Game {
 	public void main(String[] args) throws LWJGLException {
 		MainWindow mainWindow = new MainWindow(this);
 		
-//		initialize();
+		initialize();
 	}
 	
 	private void initialize() throws LWJGLException {
@@ -105,6 +106,10 @@ public class Game {
 	
 	public Logger getLogger() {
 		return logger;
+	}
+	
+	public World getWorld(UUID id) {
+		return null;
 	}
 	
 	public void log(Level level, String message) {

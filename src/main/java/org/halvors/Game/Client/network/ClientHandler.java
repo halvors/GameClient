@@ -7,7 +7,10 @@ import org.halvors.Game.Client.Game;
 import org.halvors.Game.Client.gui.Chat;
 import org.halvors.Game.Client.network.packet.PacketChat;
 import org.halvors.Game.Client.network.packet.PacketDisconnect;
+import org.halvors.Game.Client.network.packet.PacketEntity;
 import org.halvors.Game.Client.network.packet.PacketLogin;
+import org.halvors.Game.Client.network.packet.PacketSpawnLocation;
+import org.halvors.Game.Client.network.packet.PacketWorld;
 
 public class ClientHandler {
 	private final Game client;
@@ -30,6 +33,18 @@ public class ClientHandler {
 		chat.showMessage(packet.getMessage());
 		
 		client.log(Level.INFO, packet.getMessage());
+	}
+	
+	public void handlePacketWorld(PacketWorld packet) {
+		
+	}
+	
+	public void handlePacketEntity(PacketEntity packet) {
+		
+	}
+
+	public void handlePacketSpawnLocation(PacketSpawnLocation packet) {
+	
 	}
 	
 	public void handlePacketDisconnect(PacketDisconnect packet) throws IOException {
