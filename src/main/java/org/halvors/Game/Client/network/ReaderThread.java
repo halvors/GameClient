@@ -34,6 +34,6 @@ public class ReaderThread extends Thread {
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-		}	
+		}
 	}
 }
