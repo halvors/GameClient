@@ -40,6 +40,7 @@ public class Game {
 		Display.setTitle(name + " " + version);
 		
 		try {
+			// Initialize Display.
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
 			
@@ -51,7 +52,7 @@ public class Game {
 		}
 		
 		// Initialize OpenGL.
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glMatrixMode(GL11.GL_4D_COLOR_TEXTURE);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, 800, 600, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -75,17 +76,18 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); 
 		
 		// set the color of the quad (R,G,B,A)
-		GL11.glColor3f(0.5F, 0.5F, 1.0F);
+		GL11.glColor3f(0.5F, 0.5F, 0.5F);
 		
-		int x = Mouse.getX();
-		int y = Mouse.getY();
+		int x = width / 2;
+		int y = height / 2;
 		
 		// draw quad
 		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex2f(x - 50, y + 50);
+		GL11.glVertex2f(x + 50, y + 50);
 		GL11.glVertex2f(x, y);
-		GL11.glVertex2f(x + 200, y);
-		GL11.glVertex2f(x + 100, y + 200);
-		GL11.glVertex2f(x, y + 200);
+		GL11.glVertex2f(x - 50, y - 50);
+		GL11.glVertex2f(x + 50, y - 50);
 		GL11.glEnd();
 	}
 
