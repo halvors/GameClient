@@ -24,10 +24,10 @@ public class Game {
 	private final Logger logger = Logger.getLogger("Game");
 	private final KeyManager keyManager;
 	private final SoundManager soundManager;
+	private final NetworkManager networkManager;
 	
 	private final List<World> worlds = new ArrayList<World>();
 	
-	private NetworkManager networkManager;
 	private int width = 800;
 	private int height = 600;
 	
@@ -36,6 +36,7 @@ public class Game {
 		
 		this.keyManager = new KeyManager(this);
 		this.soundManager = new SoundManager(this);
+		this.networkManager = new NetworkManager(this);
 	}
 	
 	public void main(String[] args) throws LWJGLException {
@@ -162,10 +163,6 @@ public class Game {
 		if (world != null) {
 			worlds.remove(world);
 		}
-	} 
-
-	public void setNetworkManager(NetworkManager networkManager) {
-		this.networkManager = networkManager;
 	}
 	
 	public KeyManager getKeyManager() {

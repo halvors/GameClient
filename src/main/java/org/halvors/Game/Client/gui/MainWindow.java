@@ -3,8 +3,8 @@ package org.halvors.Game.Client.gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -20,7 +20,6 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
 
 	private final Game client;
-	private final MainWindow window;
 	
 	private NetworkManager networkManager;
 	
@@ -35,7 +34,6 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow(Game client) {
 		this.client = client;
-		this.window = this;
 		
 		// Set the window defaults.
 		setTitle(client.getName() + " " + client.getVersion());
@@ -82,18 +80,16 @@ public class MainWindow extends JFrame {
 	    	if (username != null && host != null && port > 0) {
 	    		try {
 	    			// Connect to the server.
-	    			networkManager = new NetworkManager(client, new Socket(host, port));
-	    			client.setNetworkManager(networkManager);
-	    			client.log(Level.INFO, "Connected to: " + host + ":" + Integer.toString(port));
-	    			buttonDisconnect.setVisible(true);
-	    			
-	    			// Send the login packet.
-	    			networkManager.sendPacket(new PacketLogin(username, client.getVersion()));
-	    			client.log(Level.INFO, "Logging in...");
-				} catch (IOException e) {
-					client.log(Level.WARNING, "Failed to connect to: " + host + ":" + Integer.toString(port));
+					client.getNetworkManager().connect(InetAddress.getByName(host), port);
+				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
+	    			
+	    		buttonDisconnect.setVisible(true);
+	    			
+	    		// Send the login packet.
+	    		networkManager.sendPacket(new PacketLogin(username, client.getVersion()));
+	    		client.log(Level.INFO, "Logging in...");
 	    	} else {
 	    		client.log(Level.WARNING, "Invalid host, port or username.");
 	    	}
@@ -103,15 +99,7 @@ public class MainWindow extends JFrame {
 	ActionListener disconnectActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
-			if (networkManager.isRunning()) {
-				try {
-					client.log(Level.INFO, "Disconnected from server.");
-					
-					networkManager.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			networkManager.disconnect();
 	    }
 	};
 }

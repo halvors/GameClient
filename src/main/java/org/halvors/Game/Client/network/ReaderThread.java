@@ -20,7 +20,7 @@ public class ReaderThread extends Thread {
 	public void run() {
 		Packet packet = null;
 		
-		while (networkManager.isRunning()) {
+		while (networkManager.isConnected()) {
 			try {
 				packet = PacketUtil.readPacket(input);
 			

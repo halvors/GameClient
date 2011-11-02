@@ -19,7 +19,7 @@ public class WriterThread extends Thread {
 	public void run() {
 		Packet packet = null;
 		
-		while (networkManager.isRunning()) {
+		while (networkManager.isConnected()) {
 			try {
 				packet = networkManager.getPacketQueue().poll();
 				
