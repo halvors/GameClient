@@ -2,7 +2,6 @@ package org.halvors.Game.Client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import org.halvors.Game.Client.entity.Entity;

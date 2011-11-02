@@ -21,6 +21,7 @@ public class Game {
 	
 	private final Logger logger = Logger.getLogger("Game");
 	private final KeyManager keyManager;
+	private final SoundManager soundManager;
 	
 	private NetworkManager networkManager;
 	private int width = 800;
@@ -30,6 +31,7 @@ public class Game {
 		Game.instance = this;
 		
 		this.keyManager = new KeyManager(this);
+		this.soundManager = new SoundManager(this);
 	}
 	
 	public void main(String[] args) throws LWJGLException {
@@ -122,6 +124,10 @@ public class Game {
 	
 	public KeyManager getKeyManager() {
 		return keyManager;
+	}
+	
+	public SoundManager getSoundManager() {
+		return soundManager;
 	}
 	
 	public NetworkManager getNetworkManager() {

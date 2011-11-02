@@ -3,12 +3,12 @@ package org.halvors.Game.Client.network.packet;
 import org.halvors.Game.Client.Location;
 import org.halvors.Game.Client.entity.Player;
 
-public class PacketSpawnLocation extends PacketLocation {
-	public PacketSpawnLocation() {
+public class PacketVelocity extends PacketLocation {
+	public PacketVelocity() {
 		
 	}
 	
-	public PacketSpawnLocation(Location loc) {
+	public PacketVelocity(Location loc) {
 		super(loc);
 	}
 	
