@@ -20,8 +20,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -7295614566043922732L;
 
 	private final Game client;
-	
-	private NetworkManager networkManager;
+	private final NetworkManager networkManager;
 	
 	private JLabel labelUsername;
 	private JTextField textFieldUsername;
@@ -34,6 +33,7 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow(Game client) {
 		this.client = client;
+		this.networkManager = client.getNetworkManager();
 		
 		// Set the window defaults.
 		setTitle(client.getName() + " " + client.getVersion());
@@ -80,12 +80,14 @@ public class MainWindow extends JFrame {
 	    	if (username != null && host != null && port > 0) {
 	    		try {
 	    			// Connect to the server.
-					client.getNetworkManager().connect(InetAddress.getByName(host), port);
+					networkManager.connect(InetAddress.getByName(host), port);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
-	    			
-	    		buttonDisconnect.setVisible(true);
+	    		
+	    		if (networkManager.isConnected()) {
+	    			buttonDisconnect.setVisible(true);
+	    		}
 	    			
 	    		// Send the login packet.
 	    		networkManager.sendPacket(new PacketLogin(username, client.getVersion()));

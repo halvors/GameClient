@@ -31,7 +31,7 @@ public class Game {
 	private int width = 800;
 	private int height = 600;
 	
-	public Game() throws LWJGLException {
+	public Game() {
 		Game.instance = this;
 		
 		this.keyManager = new KeyManager(this);
@@ -39,13 +39,13 @@ public class Game {
 		this.networkManager = new NetworkManager(this);
 	}
 	
-	public void main(String[] args) throws LWJGLException {
+	public void main(String[] args) {
 		MainWindow mainWindow = new MainWindow(this);
 		
 //		initialize();
 	}
 	
-	private void initialize() throws LWJGLException {
+	private void initialize() {
 		Display.setTitle(name + " " + version);
 		
 		try {
@@ -79,7 +79,7 @@ public class Game {
 		Display.destroy();
 	}
 	
-	private void loadScreen() throws LWJGLException {
+	private void loadScreen() {
 		// Clear the screen and depth buffer
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); 
 		

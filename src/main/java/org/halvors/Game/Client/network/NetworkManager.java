@@ -23,7 +23,7 @@ public class NetworkManager {
     private DataOutputStream output;
 	private ReaderThread readerThread;
 	private WriterThread writerThread;
-	private boolean isConnected = true;
+	private boolean isConnected = false;
 	
 	public NetworkManager(Game client) {
 		this.client = client;
@@ -32,15 +32,15 @@ public class NetworkManager {
 	
 	public void connect(InetAddress address, int port) {
 		try {
-			if (!isConnected()) {
+			if (isConnected()) {
+				setConnected(true);
+				
 				// Create the socket.
 				socket = new Socket(address, port);
 				
 				// Create streams.
 				input = new DataInputStream(socket.getInputStream());
 				output = new DataOutputStream(socket.getOutputStream());
-				
-				setConnected(true);
 				
 				// Create reader and writer thread.
 				readerThread = new ReaderThread("Reader thread", this);
@@ -57,20 +57,21 @@ public class NetworkManager {
 		}
 	}
 	
-	public void disconnect() {
-		if (isConnected()) {
-			sendPacket(new PacketDisconnect("Connection closed."));
-			
-			try {
+	public void disconnect() {	
+		try {
+			if (!isConnected()) {
+				setConnected(false);
+				
+				sendPacket(new PacketDisconnect("Connection closed."));
 				close();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void close() throws IOException {
-        if (isConnected()) {
+        if (!isConnected()) {
         	setConnected(false);
         	
         	// Close socket.
@@ -114,7 +115,7 @@ public class NetworkManager {
 	public boolean isConnected() {
 		return isConnected;
 	}
-
+	
 	public void setConnected(boolean isConnected) {
 		this.isConnected = isConnected;
 	}
