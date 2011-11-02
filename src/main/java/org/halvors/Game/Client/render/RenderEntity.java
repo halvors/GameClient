@@ -14,16 +14,14 @@ public class RenderEntity extends Render {
 	public void render(Entity entity) {
 		Location loc = entity.getLocation();
 		
-		float x = Float.parseFloat(Double.toString(loc.getX()));
-		float y = Float.parseFloat(Double.toString(loc.getY()));
+		float x = (float) loc.getX();
+		float z = (float) loc.getZ();
 		
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(x, y);
-		GL11.glVertex2f(x + 50, y);
-		GL11.glVertex2f(x + 50, y + 50);
-		GL11.glVertex2f(x, y + 50);
+		GL11.glVertex2f(x, z);
+		GL11.glVertex2f(x + 50, z);
+		GL11.glVertex2f(x + 50, z + 50);
+		GL11.glVertex2f(x, z + 50);
 		GL11.glEnd();
-		
-		// TODO: Render entity here.
     }
 }

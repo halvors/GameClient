@@ -1,11 +1,15 @@
 package org.halvors.Game.Client;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.halvors.Game.Client.entity.Entity;
 import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
+import org.halvors.Game.Client.render.RenderEntity;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -22,6 +26,8 @@ public class Game {
 	private final Logger logger = Logger.getLogger("Game");
 	private final KeyManager keyManager;
 	private final SoundManager soundManager;
+	
+	private final List<World> worlds = new ArrayList<World>();
 	
 	private NetworkManager networkManager;
 	private int width = 800;
@@ -58,7 +64,7 @@ public class Game {
 		// Initialize OpenGL.
 		GL11.glMatrixMode(GL11.GL_4D_COLOR_TEXTURE);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 600, 0, 1, -1);
+		GL11.glOrtho(0, width, height, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		
 		while (!Display.isCloseRequested()) {
@@ -80,18 +86,11 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); 
 		
 		// set the color of the quad (R,G,B,A)
-		GL11.glColor3f(0.5F, 0.5F, 0.5F);
+		GL11.glColor3f(0.5F, 0.5F, 1.0F);
 		
-		int x = width / 2;
-		int y = height / 2;
-		
-		// draw quad
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(x - 50, y + 50);
-		GL11.glVertex2f(x + 50, y + 50);
-		GL11.glVertex2f(x - 50, y - 50);
-		GL11.glVertex2f(x + 50, y - 50);
-		GL11.glEnd();
+		Entity entity = new Entity(this, new Location(null, 40, 0, 40, 0, 0));
+		RenderEntity renderEntity = new RenderEntity(this);
+		renderEntity.render(entity);
 	}
 
 	public static Game getInstance() {
@@ -110,13 +109,63 @@ public class Game {
 		return logger;
 	}
 	
-	public World getWorld(UUID id) {
-		return null;
-	}
-	
 	public void log(Level level, String message) {
 		logger.log(level, message);
 	}
+	
+	public List<World> getWorlds() {
+		return worlds;
+	}
+	
+	public World getWorld(UUID id) {
+		for (World world : worlds) {
+			if (id.equals(world.getId())) {
+				return world;
+			}
+		}
+		
+		return null;
+	}
+	
+	public World getWorld(String name) {
+		for (World world : worlds) {
+			if (name.equals(world.getName())) {
+				return world;
+			}
+		}
+		
+		return null;
+	}
+	
+	public World addWorld(World world) {
+		if (world != null && !worlds.contains(world)) {
+			worlds.add(world);
+			
+			return world;
+		}
+		
+		return null;
+	}
+	
+	public World addWorld(String name) {
+		return addWorld(new World(name));
+	}
+	
+	public void removeWorld(UUID id) {
+		World world = getWorld(id);
+		
+		if (world != null) {
+			worlds.remove(world);
+		}
+	}
+	
+	public void removeWorld(String name) {
+		World world = getWorld(name);
+		
+		if (world != null) {
+			worlds.remove(world);
+		}
+	} 
 
 	public void setNetworkManager(NetworkManager networkManager) {
 		this.networkManager = networkManager;
