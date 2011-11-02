@@ -1,11 +1,9 @@
 package org.halvors.Game.Client;
 
-import org.lwjgl.LWJGLException;
-
 public class KeyManager {
 	private final Game client;
 	
-	public KeyManager(Game client) throws LWJGLException {
+	public KeyManager(Game client) {
 		this.client = client;
 	}
 	

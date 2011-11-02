@@ -1,9 +1,9 @@
 package org.halvors.Game.Client;
 
-public class ServerManager {
+public class TextureManager {
 	private final Game client;
 	
-	public ServerManager(Game client) {
+	public TextureManager(Game client) {
 		this.client = client;
 	}
 

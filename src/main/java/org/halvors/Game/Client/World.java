@@ -2,7 +2,6 @@ package org.halvors.Game.Client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import org.halvors.Game.Client.entity.Entity;
@@ -12,9 +11,8 @@ public class World {
 	private final String name;
 	private final WorldType type;
 	private final List<Entity> entities = new ArrayList<Entity>();
-	private final Random random = new Random();
 	
-	private Location spawnLocation = new Location(this, random.nextDouble(), random.nextDouble(), random.nextDouble(), 0, 0);
+	private Location spawnLocation;
 	
 	public World(String name, UUID id, WorldType type) {
 		this.name = name;
