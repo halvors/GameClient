@@ -6,10 +6,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.halvors.Game.Client.entity.Entity;
 import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
-import org.halvors.Game.Client.render.RenderEntity;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -43,7 +41,7 @@ public class Game {
 	public void main(String[] args) throws LWJGLException {
 		MainWindow mainWindow = new MainWindow(this);
 		
-		initialize();
+//		initialize();
 	}
 	
 	private void initialize() throws LWJGLException {
@@ -71,7 +69,6 @@ public class Game {
 			// TODO: Render OpenGL here
 			loadScreen();
 			
-			keyManager.pollInput();
 			Display.update();
 			
 			// FPS limit to 60.
@@ -87,10 +84,6 @@ public class Game {
 		
 		// set the color of the quad (R,G,B,A)
 		GL11.glColor3f(0.5F, 0.5F, 1.0F);
-		
-		Entity entity = new Entity(this, new Location(null, 40, 0, 40, 0, 0));
-		RenderEntity renderEntity = new RenderEntity(this);
-		renderEntity.render(entity);
 	}
 
 	public static Game getInstance() {
@@ -135,6 +128,10 @@ public class Game {
 		}
 		
 		return null;
+	}
+	
+	public boolean hasWorld(World world) {
+		return worlds.contains(world);
 	}
 	
 	public World addWorld(World world) {

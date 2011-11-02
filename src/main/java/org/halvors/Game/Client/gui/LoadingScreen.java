@@ -1,5 +1,15 @@
 package org.halvors.Game.Client.gui;
 
-public class LoadingScreen {
+import org.halvors.Game.Client.Game;
 
+public class LoadingScreen {
+	private final Game client;
+	
+	public LoadingScreen(Game client) {
+		this.client = client;
+	}
+
+	public Game getClient() {
+		return client;
+	}
 }

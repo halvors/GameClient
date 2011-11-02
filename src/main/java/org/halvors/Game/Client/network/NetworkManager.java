@@ -46,7 +46,7 @@ public class NetworkManager {
 	}
 	
 	public void close() throws IOException {
-        if (isRunning) {
+        if (isRunning()) {
         	setRunning(false);
         	
         	// Close socket.

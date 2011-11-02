@@ -42,7 +42,9 @@ public class ClientHandler {
 		World world = packet.getWorld();
 		
 		// Register the world.
-		client.addWorld(world);
+		if (!client.hasWorld(world)) {
+			client.addWorld(world);
+		}
 	}
 	
 	public void handlePacketEntity(PacketEntity packet) {
@@ -51,6 +53,10 @@ public class ClientHandler {
 		
 		// Register the entity.
 		world.addEntity(entity);
+		
+		// Render entities.
+		RenderEntity renderEntity = new RenderEntity(client);
+		renderEntity.render(entity);
 	}
 
 	public void handlePacketSpawnLocation(PacketSpawnLocation packet) {
