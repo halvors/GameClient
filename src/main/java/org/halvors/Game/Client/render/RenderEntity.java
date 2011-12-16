@@ -14,8 +14,8 @@ public class RenderEntity extends Render {
 	public void render(Entity entity) {
 		Location loc = entity.getLocation();
 		
-		float x = (float) loc.getX();
-		float z = (float) loc.getZ();
+		float x = loc.getX();
+		float z = loc.getZ();
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(x, z);

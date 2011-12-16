@@ -7,31 +7,38 @@ import java.io.IOException;
 import org.halvors.Game.Client.network.ClientHandler;
 
 public class PacketUtil {
-	public static Packet readPacket(DataInputStream input) throws IOException, InstantiationException, IllegalAccessException {
-		// Read the id form the DataInputStream.
-        int id = input.read();
+	public static Packet readPacket(DataInputStream input) throws IOException {
+		if (input != null) {
+			// Read the id form the DataInputStream.
+			int id = input.read();
             
-        // Packet's in out system can't be less than 0.
-        if (id >= 0) {
-            Packet packet = getPacketInstance(id);
+			// Packet's in out system can't be less than 0.
+			if (id >= 0) {
+				Packet packet = getNewPacket(id);
             	
-            // Check if the packet was found in the HashMap, if not throw an Exception.
-            if (packet == null) {
-            	throw new IOException("Bad packet id " + id);
-            }
-            
-            // Read the packet data.
-            packet.readData(input);
-            
-            return packet;
-        }
+	            // Check if the packet was found in the HashMap, if not throw an Exception.
+	            if (packet == null) {
+	            	throw new IOException("Bad packet id " + id);
+	            }
+	            
+	            // Read the packet data.
+	            packet.readData(input);
+	            
+	            return packet;
+	        }
+		}
 		
 		return null;
 	}
 	
-    public static void writePacket(Packet packet, DataOutputStream output) throws IOException {
-        output.write(packet.getPacketId());
-        packet.writeData(output);
+    public static void writePacket(DataOutputStream output, Packet packet) throws IOException {
+    	if (output != null && packet != null) {
+    		// Write the packet id to the stream.
+    		output.write(packet.getPacketId());
+    		
+    		// Then write the packet data.
+        	packet.writeData(output);
+    	}
     }
     
     /**
@@ -42,33 +49,35 @@ public class PacketUtil {
      * @throws IOException 
      */
 	public static void handlePacket(Packet packet, ClientHandler handler) throws IOException {
-		PacketType type = packet.getPacketType();
-		
-		// Detect PacketType and handle it in the right way :D
-		switch (type) {
-		case PacketLogin:
-			handler.handlePacketLogin((PacketLogin) packet);
-			break;
-		
-		case PacketChat:
-			handler.handlePacketChat((PacketChat) packet);
-			break;
+		if (packet != null) {
+			PacketType type = packet.getPacketType();
 			
-		case PacketWorld:
-			handler.handlePacketWorld((PacketWorld) packet);
-			break;
+			// Detect PacketType and handle it in the right way :D
+			switch (type) {
+			case PacketLogin:
+				handler.handlePacketLogin((PacketLogin) packet);
+				break;
 			
-		case PacketEntity:
-			handler.handlePacketEntity((PacketEntity) packet);
-			break;
-			
-		case PacketSpawnLocation:
-			handler.handlePacketSpawnLocation((PacketSpawnLocation) packet);
-			break;
-
-        case PacketDisconnect:
-        	handler.handlePacketDisconnect((PacketDisconnect) packet);
-        	break;
+			case PacketChat:
+				handler.handlePacketChat((PacketChat) packet);
+				break;
+				
+			case PacketWorld:
+				handler.handlePacketWorld((PacketWorld) packet);
+				break;
+				
+			case PacketEntity:
+				handler.handlePacketEntity((PacketEntity) packet);
+				break;
+				
+			case PacketSpawnLocation:
+				handler.handlePacketSpawnLocation((PacketSpawnLocation) packet);
+				break;
+	
+	        case PacketDisconnect:
+	        	handler.handlePacketDisconnect((PacketDisconnect) packet);
+	        	break;
+			}
 		}
 	}
     
@@ -80,11 +89,17 @@ public class PacketUtil {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
-	public static Packet getPacketInstance(int id) throws InstantiationException, IllegalAccessException {
-		Class<? extends Packet> packet = PacketType.getPacketFromId(id).getPacketClass();
-
-		if (packet != null) {
-			return packet.newInstance();
+	public static Packet getNewPacket(int id) {
+		try {
+			Class<? extends Packet> packet = PacketType.getPacketFromId(id).getPacketClass();
+			
+			if (packet != null) {
+				return packet.newInstance();
+			}
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
 		
 		return null;

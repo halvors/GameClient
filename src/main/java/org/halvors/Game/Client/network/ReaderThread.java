@@ -24,14 +24,10 @@ public class ReaderThread extends Thread {
 			try {
 				packet = PacketUtil.readPacket(input);
 			
-				if (input != null && packet != null) {
+				if (packet != null) {
 					PacketUtil.handlePacket(packet, networkManager.getClientHandler());
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}

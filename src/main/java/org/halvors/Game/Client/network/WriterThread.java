@@ -24,7 +24,7 @@ public class WriterThread extends Thread {
 				packet = networkManager.getPacketQueue().poll();
 				
 				if (output != null && packet != null) {
-					PacketUtil.writePacket(packet, output);
+					PacketUtil.writePacket(output, packet);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

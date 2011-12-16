@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 
@@ -51,7 +52,7 @@ public class MainWindow extends JFrame {
 		textFieldHost.setText("127.0.0.1");
 		labelPort = new JLabel("Host: ");
 		textFieldPort = new JTextField(20);
-		textFieldPort.setText("7846");
+		textFieldPort.setText("22075");
 		buttonConnect = new JButton("Connect");
 		buttonConnect.addActionListener(connectActionListener);
 		buttonDisconnect = new JButton("Disconnect");
@@ -78,20 +79,16 @@ public class MainWindow extends JFrame {
 	    	
 	    	// Check that host and port not is null.
 	    	if (username != null && host != null && port > 0) {
-	    		try {
-	    			// Connect to the server.
+	    		// Connect to the server.
+				try {
 					networkManager.connect(InetAddress.getByName(host), port);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
-	    		
-	    		if (networkManager.isConnected()) {
-	    			buttonDisconnect.setVisible(true);
-	    		}
-	    			
-	    		// Send the login packet.
-	    		networkManager.sendPacket(new PacketLogin(username, client.getVersion()));
-	    		client.log(Level.INFO, "Logging in...");
+				
+				if (networkManager.isConnected()) {
+					buttonDisconnect.setVisible(true);
+				}
 	    	} else {
 	    		client.log(Level.WARNING, "Invalid host, port or username.");
 	    	}

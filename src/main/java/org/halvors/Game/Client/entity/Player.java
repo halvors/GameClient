@@ -1,6 +1,7 @@
 package org.halvors.Game.Client.entity;
 
 import org.halvors.Game.Client.Game;
+import org.halvors.Game.Client.ICamera;
 import org.halvors.Game.Client.Location;
 
 public class Player extends LivingEntity {

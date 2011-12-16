@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -28,6 +29,7 @@ public class Game implements Runnable {
 	private final String version = "0.0.2";
 	
 	private final Logger logger = Logger.getLogger("Game");
+	private final TextureManager textureManager;
 	private final KeyManager keyManager;
 	private final SoundManager soundManager;
 	private final NetworkManager networkManager;
@@ -36,19 +38,21 @@ public class Game implements Runnable {
 	
 	private int width = 800;
 	private int height = 600;
+	private int fpsLimit = 60;
 	
 	public Game() {
 		Game.instance = this;
 		
+		this.textureManager = new TextureManager(this);
 		this.keyManager = new KeyManager(this);
 		this.soundManager = new SoundManager(this);
 		this.networkManager = new NetworkManager(this);
 	}
 	
 	public void main(String[] args) {
-//		MainWindow mainWindow = new MainWindow(this);
+		MainWindow mainWindow = new MainWindow(this);
 		
-		initialize();
+//		initialize();
 	}
 	
 	private void initialize() {
@@ -74,7 +78,7 @@ public class Game implements Runnable {
 		
 		while (!Display.isCloseRequested()) {
 			// TODO: Render OpenGL here
-			loadScreen();
+			//loadScreen();
 			
 			// Update keys.
 			keyManager.onUpdate();
@@ -83,7 +87,7 @@ public class Game implements Runnable {
 			Display.update();
 			
 			// FPS limit to 60.
-			Display.sync(60);
+			Display.sync(fpsLimit);
 		}
 		
 		Display.destroy();
@@ -207,6 +211,10 @@ public class Game implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public TextureManager getTextureManager() {
+		return textureManager;
 	}
 	
 	public KeyManager getKeyManager() {
