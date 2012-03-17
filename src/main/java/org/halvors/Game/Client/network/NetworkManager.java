@@ -38,8 +38,8 @@ public class NetworkManager {
 	 * @param port
 	 */
 	public void connect(InetAddress address, int port) {
-		if (address != null && port > 0) {
-			try {	
+		if (address != null && port != 0) {
+			try {
 				// Create the socket.
 				socket = new Socket(address, port);
 					
@@ -48,18 +48,14 @@ public class NetworkManager {
 				output = new DataOutputStream(socket.getOutputStream());
 					
 				// Create reader and writer thread.
-//				readerThread = new ReaderThread("Reader thread", this);
+				readerThread = new ReaderThread("Reader thread", this);
 				writerThread = new WriterThread("Writer thread", this);
-//				readerThread.start();
+				readerThread.start();
 				writerThread.start();
 				
 				setConnected(true);
 				
 				client.log(Level.INFO, "Connected to: " + address.toString() + ":" + Integer.toString(port));
-					
-				// Send the login packet.
-				sendPacket(new PacketLogin("Test", client.getVersion()));
-				client.log(Level.INFO, "Logging in...");
 			} catch (IOException e) {
 				client.log(Level.WARNING, "Failed to connect to: " + address.toString() + ":" + Integer.toString(port));
 				e.printStackTrace();
@@ -100,6 +96,17 @@ public class NetworkManager {
 		}
 	}
 	
+	/**
+	 * Send a packet to the server.
+	 * 
+	 * @param packet
+	 */
+	public void sendPacket(Packet packet) {
+        if (packet != null) {
+        	packetQueue.add(packet);
+        }
+    }
+	
 	public void close() throws IOException {
         if (isConnected()) {
         	setConnected(false);
@@ -112,17 +119,6 @@ public class NetworkManager {
             
             // Close input stream.
             output.close();
-        }
-    }
-	
-	/**
-	 * Send a packet to the server.
-	 * 
-	 * @param packet
-	 */
-	public void sendPacket(Packet packet) {
-        if (packet != null) {
-        	packetQueue.add(packet);
         }
     }
 	

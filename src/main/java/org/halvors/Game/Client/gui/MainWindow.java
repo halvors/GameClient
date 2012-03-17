@@ -81,7 +81,7 @@ public class MainWindow extends JFrame {
 	    	if (username != null && host != null && port > 0) {
 	    		// Connect to the server.
 				try {
-					networkManager.connect(InetAddress.getByName(host), port);
+					networkManager.connectAndLogin(InetAddress.getByName(host), port, username);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}

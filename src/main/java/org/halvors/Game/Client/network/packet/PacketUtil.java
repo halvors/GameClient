@@ -13,18 +13,17 @@ public class PacketUtil {
 			int id = input.read();
             
 			// Packet's in out system can't be less than 0.
-			if (id >= 0) {
-				Packet packet = getNewPacket(id);
+			if (id != 0) {
+				Packet packet = getPacketFromId(id);
             	
-	            // Check if the packet was found in the HashMap, if not throw an Exception.
-	            if (packet == null) {
-	            	throw new IOException("Bad packet id " + id);
+				if (packet != null) {
+	            	// Read the packet data.
+		            packet.readData(input);
+		            
+		            return packet;
+	            } else {
+	            	throw new IOException("Bad packet id: " + id);
 	            }
-	            
-	            // Read the packet data.
-	            packet.readData(input);
-	            
-	            return packet;
 	        }
 		}
 		
@@ -41,6 +40,30 @@ public class PacketUtil {
     	}
     }
     
+	/**
+	 * Get a new packet from a specific id.
+	 * 
+	 * @param id
+	 * @return the Packet.
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public static Packet getPacketFromId(int id) {
+		Class<? extends Packet> packet = PacketType.getPacketFromId(id).getPacketClass();
+		
+		if (packet != null) {
+			try {
+				return packet.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+    }
+	
     /**
      * Handle packet's after being read.
      * 
@@ -61,18 +84,6 @@ public class PacketUtil {
 			case PacketChat:
 				handler.handlePacketChat((PacketChat) packet);
 				break;
-				
-			case PacketWorld:
-				handler.handlePacketWorld((PacketWorld) packet);
-				break;
-				
-			case PacketEntity:
-				handler.handlePacketEntity((PacketEntity) packet);
-				break;
-				
-			case PacketSpawnLocation:
-				handler.handlePacketSpawnLocation((PacketSpawnLocation) packet);
-				break;
 	
 	        case PacketDisconnect:
 	        	handler.handlePacketDisconnect((PacketDisconnect) packet);
@@ -80,28 +91,4 @@ public class PacketUtil {
 			}
 		}
 	}
-    
-	/**
-	 * Get a new packet from a specific id.
-	 * 
-	 * @param id
-	 * @return the Packet.
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 */
-	public static Packet getNewPacket(int id) {
-		try {
-			Class<? extends Packet> packet = PacketType.getPacketFromId(id).getPacketClass();
-			
-			if (packet != null) {
-				return packet.newInstance();
-			}
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-    }
 }

@@ -1,8 +1,5 @@
 package org.halvors.Game.Client;
 
-import java.io.File;
-import java.util.logging.Level;
-
 import org.lwjgl.input.Keyboard;
 
 public class KeyManager {
@@ -15,32 +12,27 @@ public class KeyManager {
 	public void onUpdate() {
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
-				// Key was pressed.
-				
-				if (Keyboard.getEventKey() == Keyboard.KEY_W) {
+				switch (Keyboard.getEventKey()) {
+					case Keyboard.KEY_F1:
+						client.takeScreenshot();
+						break;
+					case Keyboard.KEY_W:
+					case Keyboard.KEY_E:
+					case Keyboard.KEY_A:
+					case Keyboard.KEY_S:
+					case Keyboard.KEY_D:
+					case Keyboard.KEY_F:
+						client.toggleFullscreen();
+						break;
+					case Keyboard.KEY_V:
+						client.toggleVsync();
+						break;
 					
 				}
-				
-				if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+			} else {
+				switch (Keyboard.getEventKey()) {
 					
 				}
-				
-				if (Keyboard.getEventKey() == Keyboard.KEY_S) {
-					
-				}
-				
-				if (Keyboard.getEventKey() == Keyboard.KEY_D) {
-					
-				}
-				
-				if (Keyboard.getEventKey() == Keyboard.KEY_F1) {
-					File file = new File("Screenshot.png");
-					
-					client.log(Level.INFO, "Saving screenshot to: " + file.getAbsolutePath());
-					client.takeScreenshot(file);
-				}
-			} else  {
-				// Key was released.
 			}
 		}
 	}

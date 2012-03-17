@@ -16,6 +16,7 @@ public class Entity {
 	public Entity(Game client, UUID id, Location loc) {
 		this.client = client;
 		this.id = id;
+		
 		setWorld(loc.getWorld());
 		setLocation(loc);
 	}

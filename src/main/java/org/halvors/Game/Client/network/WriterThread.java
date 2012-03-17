@@ -21,7 +21,9 @@ public class WriterThread extends Thread {
 		
 		while (networkManager.isConnected()) {
 			try {
-				packet = networkManager.getPacketQueue().poll();
+				synchronized (networkManager.getPacketQueue()) {
+					packet = networkManager.getPacketQueue().poll();
+				}
 				
 				if (output != null && packet != null) {
 					PacketUtil.writePacket(output, packet);
