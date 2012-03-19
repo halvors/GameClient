@@ -4,8 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.halvors.Game.Client.entity.Player;
-
 public class PacketLogin extends Packet {
 	private String username;
 	private String version;
@@ -32,11 +30,7 @@ public class PacketLogin extends Packet {
 	}
 	
 	@Override
-	public void run(Player player) {
-		
-	}
-	
-	public int getPacketSize() {
+	public int getSize() {
 		return username.length() + version.length();
 	}
 	

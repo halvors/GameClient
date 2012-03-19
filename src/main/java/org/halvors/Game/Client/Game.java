@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
 import org.halvors.Game.Client.render.TextureManager;
 import org.lwjgl.BufferUtils;
@@ -30,7 +31,6 @@ public class Game implements Runnable {
 	private final String version = "0.0.2";
 	
 	private final Logger logger = Logger.getLogger("Game");
-	private final KeyManager keyManager;
 	private final TextureManager textureManager;
 	private final SoundManager soundManager;
 	private final NetworkManager networkManager;
@@ -51,10 +51,11 @@ public class Game implements Runnable {
 	public Game() {
 		Game.instance = this;
 		
-		this.keyManager = new KeyManager(this);
 		this.textureManager = new TextureManager(this);
 		this.soundManager = new SoundManager(this);
 		this.networkManager = new NetworkManager(this);
+		
+		new MainWindow(this);
 	}
 	
 	public void start() {
@@ -81,8 +82,7 @@ public class Game implements Runnable {
 			// TODO: Render OpenGL here
 			loadScreen();
 			
-			// Run onUpdate() in KeyManager.
-			keyManager.onUpdate();
+			onTick();
 			
 			// Update display.
 			Display.update();
@@ -92,6 +92,33 @@ public class Game implements Runnable {
 		}
 		
 		Display.destroy();
+	}
+	
+	private void onTick() {
+		while (Keyboard.next()) {
+			if (Keyboard.getEventKeyState()) {
+				switch (Keyboard.getEventKey()) {
+					case Keyboard.KEY_F1:
+						takeScreenshot();
+						break;
+					case Keyboard.KEY_W:
+					case Keyboard.KEY_E:
+					case Keyboard.KEY_A:
+					case Keyboard.KEY_S:
+					case Keyboard.KEY_D:
+					case Keyboard.KEY_F:
+						toggleFullscreen();
+						break;
+					case Keyboard.KEY_V:
+						toggleVsync();
+						break;
+				}
+			} else {
+				switch (Keyboard.getEventKey()) {
+					
+				}
+			}
+		}
 	}
 	
 	private void loadScreen() {
@@ -315,10 +342,6 @@ public class Game implements Runnable {
 	
 	public TextureManager getTextureManager() {
 		return textureManager;
-	}
-	
-	public KeyManager getKeyManager() {
-		return keyManager;
 	}
 	
 	public SoundManager getSoundManager() {

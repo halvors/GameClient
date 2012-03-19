@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 
@@ -15,11 +14,10 @@ import javax.swing.JTextField;
 
 import org.halvors.Game.Client.Game;
 import org.halvors.Game.Client.network.NetworkManager;
-import org.halvors.Game.Client.network.packet.PacketLogin;
 
 public class MainWindow extends JFrame {
-	private static final long serialVersionUID = -7295614566043922732L;
-
+	private static final long serialVersionUID = -1965337004055607388L;
+	
 	private final Game client;
 	private final NetworkManager networkManager;
 	

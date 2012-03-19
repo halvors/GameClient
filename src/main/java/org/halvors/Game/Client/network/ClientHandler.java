@@ -27,13 +27,18 @@ public class ClientHandler {
 	}
 	
 	public void handlePacketChat(PacketChat packet) {
-		chat.showMessage(packet.getMessage());
+		String message = packet.getMessage();
 		
-		client.log(Level.INFO, packet.getMessage());
+		chat.showMessage(message);
+		client.log(Level.INFO, message);
 	}
 	
-	public void handlePacketDisconnect(PacketDisconnect packet) throws IOException {
-		networkManager.close();
+	public void handlePacketDisconnect(PacketDisconnect packet) {
+		try {
+			networkManager.shutdown();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		client.log(Level.INFO, "Disconnected: " + packet.getReason());
 	}

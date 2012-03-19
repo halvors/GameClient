@@ -3,7 +3,7 @@ package org.halvors.Game.Client.network;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.network.packet.IPacket;
 import org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class ReaderThread extends Thread {
@@ -12,15 +12,16 @@ public class ReaderThread extends Thread {
 	
 	public ReaderThread(String name, NetworkManager networkManager) {
 		super(name);
+		
 		this.networkManager = networkManager;
-		this.input = networkManager.getInput();
+		this.input = networkManager.getDataInputStream();
 	}
 	
 	@Override
 	public void run() {
-		Packet packet = null;
+		IPacket packet = null;
 		
-		while (networkManager.isConnected()) {
+		while (true) {
 			try {
 				packet = PacketUtil.readPacket(input);
 			

@@ -7,20 +7,21 @@ import java.io.IOException;
 import org.halvors.Game.Client.network.ClientHandler;
 
 public class PacketUtil {
-	public static Packet readPacket(DataInputStream input) throws IOException {
+	public static IPacket readPacket(DataInputStream input) throws IOException {
 		if (input != null) {
 			// Read the id form the DataInputStream.
 			int id = input.read();
             
-			// Packet's in out system can't be less than 0.
+			// Packet's id can't be than 0.
 			if (id != 0) {
-				Packet packet = getPacketFromId(id);
+				IPacket packet = getPacketFromId(id);
             	
-				if (packet != null) {
+	            // Check if the packet was found in the HashMap, if not throw an Exception.
+	            if (packet != null) {
 	            	// Read the packet data.
-		            packet.readData(input);
-		            
-		            return packet;
+	            	packet.readData(input);
+	            
+	            	return packet;
 	            } else {
 	            	throw new IOException("Bad packet id: " + id);
 	            }
@@ -30,17 +31,17 @@ public class PacketUtil {
 		return null;
 	}
 	
-    public static void writePacket(DataOutputStream output, Packet packet) throws IOException {
+    public static void writePacket(DataOutputStream output, IPacket packet) throws IOException {
     	if (output != null && packet != null) {
     		// Write the packet id to the stream.
-    		output.write(packet.getPacketId());
+    		output.write(packet.getId());
     		
     		// Then write the packet data.
         	packet.writeData(output);
     	}
     }
     
-	/**
+    /**
 	 * Get a new packet from a specific id.
 	 * 
 	 * @param id
@@ -48,8 +49,8 @@ public class PacketUtil {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
-	public static Packet getPacketFromId(int id) {
-		Class<? extends Packet> packet = PacketType.getPacketFromId(id).getPacketClass();
+	public static IPacket getPacketFromId(int id) {
+		Class<? extends IPacket> packet = PacketType.getPacketFromId(id).getPacketClass();
 		
 		if (packet != null) {
 			try {
@@ -68,25 +69,24 @@ public class PacketUtil {
      * Handle packet's after being read.
      * 
      * @param packet
-     * @param handler
-     * @throws IOException 
+     * @param serverHandler
      */
-	public static void handlePacket(Packet packet, ClientHandler handler) throws IOException {
-		if (packet != null) {
-			PacketType type = packet.getPacketType();
+	public static void handlePacket(IPacket packet, ClientHandler clientHandler) {
+		if (packet != null && clientHandler != null) {
+			PacketType type = packet.getType();
 			
-			// Detect PacketType and handle it in the right way :D
+			// Detect PacketType and handle it in the right way.
 			switch (type) {
 			case PacketLogin:
-				handler.handlePacketLogin((PacketLogin) packet);
+				clientHandler.handlePacketLogin((PacketLogin) packet);
 				break;
 			
 			case PacketChat:
-				handler.handlePacketChat((PacketChat) packet);
+				clientHandler.handlePacketChat((PacketChat) packet);
 				break;
-	
+				
 	        case PacketDisconnect:
-	        	handler.handlePacketDisconnect((PacketDisconnect) packet);
+	        	clientHandler.handlePacketDisconnect((PacketDisconnect) packet);
 	        	break;
 			}
 		}

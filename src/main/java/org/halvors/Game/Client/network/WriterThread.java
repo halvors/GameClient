@@ -3,7 +3,7 @@ package org.halvors.Game.Client.network;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.network.packet.IPacket;
 import org.halvors.Game.Client.network.packet.PacketUtil;
 
 public class WriterThread extends Thread {
@@ -12,14 +12,15 @@ public class WriterThread extends Thread {
 	
 	public WriterThread(String name, NetworkManager networkManager) {
 		super(name);
+		
 		this.networkManager = networkManager;
-		this.output = networkManager.getOutput();
+		this.output = networkManager.getDataOutputStream();
 	}
 	
 	public void run() {
-		Packet packet = null;
+		IPacket packet = null;
 		
-		while (networkManager.isConnected()) {
+		while (true) {
 			try {
 				synchronized (networkManager.getPacketQueue()) {
 					packet = networkManager.getPacketQueue().poll();

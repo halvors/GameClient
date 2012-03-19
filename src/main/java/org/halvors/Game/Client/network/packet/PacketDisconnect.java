@@ -4,10 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.halvors.Game.Client.entity.Player;
-
 public class PacketDisconnect extends Packet {
-	public String reason;
+	private String reason;
 	
 	public PacketDisconnect() {
 		
@@ -28,11 +26,7 @@ public class PacketDisconnect extends Packet {
 	}
 	
 	@Override
-	public void run(Player player) {
-		
-	}
-	
-	public int getPacketSize() {
+	public int getSize() {
 		return reason.length();
 	}
 	

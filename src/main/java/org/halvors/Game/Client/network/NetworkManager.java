@@ -1,23 +1,25 @@
 package org.halvors.Game.Client.network;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
 
 import org.halvors.Game.Client.Game;
-import org.halvors.Game.Client.network.packet.Packet;
+import org.halvors.Game.Client.network.packet.IPacket;
 import org.halvors.Game.Client.network.packet.PacketDisconnect;
 import org.halvors.Game.Client.network.packet.PacketLogin;
 
 public class NetworkManager {
 	private final Game client;
 	private final ClientHandler clientHandler;
-	private final Queue<Packet> packetQueue = new LinkedList<Packet>();
+	private final Queue<IPacket> packetQueue = new LinkedList<IPacket>();
 	
 	private Socket socket;
 	private DataInputStream input;
@@ -36,30 +38,38 @@ public class NetworkManager {
 	 * 
 	 * @param address
 	 * @param port
+	 * @throws IOException 
 	 */
 	public void connect(InetAddress address, int port) {
 		if (address != null && port != 0) {
-			try {
-				// Create the socket.
-				socket = new Socket(address, port);
+				try {
+					setConnected(true);
 					
-				// Create streams.
-				input = new DataInputStream(socket.getInputStream());
-				output = new DataOutputStream(socket.getOutputStream());
+					// Create the socket.
+					socket = new Socket(address, port);
 					
-				// Create reader and writer thread.
-				readerThread = new ReaderThread("Reader thread", this);
-				writerThread = new WriterThread("Writer thread", this);
-				readerThread.start();
-				writerThread.start();
-				
-				setConnected(true);
-				
-				client.log(Level.INFO, "Connected to: " + address.toString() + ":" + Integer.toString(port));
-			} catch (IOException e) {
-				client.log(Level.WARNING, "Failed to connect to: " + address.toString() + ":" + Integer.toString(port));
-				e.printStackTrace();
-			}
+					try {
+						socket.setSoTimeout(30000);
+						socket.setTrafficClass(24); // TODO: Check this?
+					} catch (SocketException e1) {
+						e1.printStackTrace();
+					} 
+						
+					// Create the streams.
+					input = new DataInputStream(socket.getInputStream());
+					output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
+						
+					// Create reader and writer thread.
+					readerThread = new ReaderThread("Reader thread", this);
+					writerThread = new WriterThread("Writer thread", this);
+					readerThread.start();
+					writerThread.start();
+					
+					client.log(Level.INFO, "Connected to: " + address.toString() + ":" + Integer.toString(port));
+				} catch (IOException e) {
+					client.log(Level.WARNING, "Failed to connect to: " + address.toString() + ":" + Integer.toString(port));
+					e.printStackTrace();
+				}
 		}
 	}
 	
@@ -76,6 +86,7 @@ public class NetworkManager {
 		
 		// Send the login packet.
 		sendPacket(new PacketLogin(name, client.getVersion()));
+		
 		client.log(Level.INFO, "Logging in...");
 	}
 	
@@ -83,16 +94,17 @@ public class NetworkManager {
 	 * Disconnect from server.
 	 */
 	public void disconnect() {	
-		try {
-			if (isConnected()) {
-				setConnected(false);
-				
-				// Send the disconnect packet and close the connection.
-				sendPacket(new PacketDisconnect("Connection closed."));
-				close();
+		if (isConnected()) {
+			setConnected(false);
+			
+			// Send the disconnect packet and close the connection.
+			sendPacket(new PacketDisconnect("Connection closed."));
+			
+			try {
+				shutdown();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -101,24 +113,34 @@ public class NetworkManager {
 	 * 
 	 * @param packet
 	 */
-	public void sendPacket(Packet packet) {
+	public void sendPacket(IPacket packet) {
         if (packet != null) {
         	packetQueue.add(packet);
+        	
+        	client.log(Level.INFO, "Packet with id: " + packet.getId() + " queued.");
         }
     }
 	
-	public void close() throws IOException {
+	public void shutdown() throws IOException {
         if (isConnected()) {
         	setConnected(false);
         	
+        	wakeThreads();
+        	
+//        	readerThread.stop();
+//        	writerThread.stop();
+        	
         	// Close socket.
-            socket.close();
+			socket.close();
+			socket = null;
+			
+			// Close input stream.
+			input.close();
+            input = null;
             
             // Close input stream.
-            input.close();
-            
-            // Close input stream.
-            output.close();
+			output.close();
+            output = null;
         }
     }
 	
@@ -139,15 +161,15 @@ public class NetworkManager {
 		return clientHandler;
 	}
 	
-	public Queue<Packet> getPacketQueue() {
+	public Queue<IPacket> getPacketQueue() {
 		return packetQueue;
 	}
 
-	public DataInputStream getInput() {
+	public DataInputStream getDataInputStream() {
 		return input;
 	}
 	
-	public DataOutputStream getOutput() {
+	public DataOutputStream getDataOutputStream() {
 		return output;
 	}
 	
