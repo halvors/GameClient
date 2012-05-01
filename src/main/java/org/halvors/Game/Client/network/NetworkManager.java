@@ -1,6 +1,5 @@
 package org.halvors.Game.Client.network;
 
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -125,7 +124,7 @@ public class NetworkManager {
         if (isConnected()) {
             setConnected(false);
         	
-//        	wakeThreads();
+        	wakeThreads();
         	
 //        	readerThread.stop();
 //        	writerThread.stop();

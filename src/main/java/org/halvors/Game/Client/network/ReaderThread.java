@@ -43,4 +43,8 @@ public class ReaderThread extends Thread {
 	public Game getClient() {
 		return client;
 	}
+	
+	public NetworkManager getNetworkManager() {
+		return networkManager;
+	}
 }

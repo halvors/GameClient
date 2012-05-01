@@ -38,6 +38,6 @@ public class LivingEntity extends Entity implements ILivingEntity {
 	}
 	
 	public void move() {
-		// TODO: Implement this.
+		
     }
 }
