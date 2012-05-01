@@ -3,7 +3,7 @@ package org.halvors.Game.Client.entity;
 import org.halvors.Game.Client.Game;
 import org.halvors.Game.Client.Location;
 
-public class LivingEntity extends Entity {
+public class LivingEntity extends Entity implements ILivingEntity {
 	private int health;
 	
 	public LivingEntity(Game client, Location loc) {
@@ -15,19 +15,19 @@ public class LivingEntity extends Entity {
 	}
 
 	public void setHealth(int health) {
-		if (health <= 20) {
+		if (health <= 10) {
 			this.health = health;
 		}
 	}
 	
 	public void heal(int amount) {
-        if (health > 0 && health + amount <= 20) {
+        if (health > 0 && health + amount <= 10) {
             health += amount;
         }
     }
 	
 	public void damage(int damage) {
-		if (damage <= 20 && health - damage <= 20) {
+		if (damage <= 10 && health - damage <= 10) {
 			setHealth(damage);
 		}
 	}

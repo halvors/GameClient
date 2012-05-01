@@ -6,18 +6,16 @@ import org.halvors.Game.Client.Game;
 import org.halvors.Game.Client.Location;
 import org.halvors.Game.Client.World;
 
-public class Entity {
+public class Entity implements IEntity {
 	private final Game client;
 	private final UUID id;
 	
-	private World world;
 	private Location location;
 	
 	public Entity(Game client, UUID id, Location loc) {
 		this.client = client;
 		this.id = id;
 		
-		setWorld(loc.getWorld());
 		setLocation(loc);
 	}
 	
@@ -34,11 +32,7 @@ public class Entity {
 	}
 	
 	public World getWorld() {
-		return world;
-	}
-	
-	public void setWorld(World world) {
-		this.world = world;
+		return location.getWorld();
 	}
 	
 	public Location getLocation() {
@@ -50,6 +44,6 @@ public class Entity {
 	}
 	
 	public void remove() {
-		world.removeEntity(this);
+		getWorld().removeEntity(this);
 	}
 }
