@@ -1,6 +1,5 @@
 package org.halvors.Game.Client.network;
 
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -41,35 +40,33 @@ public class NetworkManager {
 	 * @throws IOException 
 	 */
 	public void connect(InetAddress address, int port) {
-		if (address != null && port != 0) {
-				try {
-					setConnected(true);
-					
-					// Create the socket.
-					socket = new Socket(address, port);
-					
-					try {
-						socket.setSoTimeout(30000);
-						socket.setTrafficClass(24); // TODO: Check this?
-					} catch (SocketException e1) {
-						e1.printStackTrace();
-					} 
-						
-					// Create the streams.
-					input = new DataInputStream(socket.getInputStream());
-					output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
-						
-					// Create reader and writer thread.
-					readerThread = new ReaderThread("Reader thread", this);
-					writerThread = new WriterThread("Writer thread", this);
-					readerThread.start();
-					writerThread.start();
-					
-					client.log(Level.INFO, "Connected to: " + address.toString() + ":" + Integer.toString(port));
-				} catch (IOException e) {
-					client.log(Level.WARNING, "Failed to connect to: " + address.toString() + ":" + Integer.toString(port));
-					e.printStackTrace();
-				}
+		try {
+			setConnected(true);
+			
+			// Create the socket.
+			this.socket = new Socket(address, port);
+			
+			try {
+				socket.setSoTimeout(30000);
+				socket.setTrafficClass(24); // TODO: Check this?
+			} catch (SocketException e) {
+				e.printStackTrace();
+			} 
+			
+			// Create the streams.
+			this.input = new DataInputStream(socket.getInputStream());
+			this.output = new DataOutputStream(socket.getOutputStream());
+				
+			// Create reader and writer thread.
+			this.readerThread = new ReaderThread(client, "Reader thread", this);
+			this.writerThread = new WriterThread(client, "Writer thread", this);
+			readerThread.start();
+			writerThread.start();
+			
+			client.log(Level.INFO, "Connected to: " + address.toString() + ":" + Integer.toString(port));
+		} catch (IOException e) {
+			client.log(Level.WARNING, "Failed to connect to: " + address.toString() + ":" + Integer.toString(port));
+			e.printStackTrace();
 		}
 	}
 	
@@ -123,24 +120,24 @@ public class NetworkManager {
 	
 	public void shutdown() throws IOException {
         if (isConnected()) {
-        	setConnected(false);
+            setConnected(false);
         	
-        	wakeThreads();
+//        	wakeThreads();
         	
 //        	readerThread.stop();
 //        	writerThread.stop();
         	
         	// Close socket.
 			socket.close();
-			socket = null;
+			this.socket = null;
 			
 			// Close input stream.
 			input.close();
-            input = null;
+			this.input = null;
             
             // Close input stream.
 			output.close();
-            output = null;
+            this.output = null;
         }
     }
 	

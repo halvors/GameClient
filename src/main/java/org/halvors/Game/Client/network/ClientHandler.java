@@ -1,6 +1,5 @@
 package org.halvors.Game.Client.network;
 
-import java.io.IOException;
 import java.util.logging.Level;
 
 import org.halvors.Game.Client.Game;
@@ -34,11 +33,11 @@ public class ClientHandler {
 	}
 	
 	public void handlePacketDisconnect(PacketDisconnect packet) {
-		try {
-			networkManager.shutdown();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			networkManager.shutdown();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		client.log(Level.INFO, "Disconnected: " + packet.getReason());
 	}
