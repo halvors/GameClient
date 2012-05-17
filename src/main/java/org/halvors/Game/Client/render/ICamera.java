@@ -1,6 +1,6 @@
 package org.halvors.Game.Client.render;
 
-import org.halvors.Game.Client.Location;
+import org.halvors.Game.Client.world.Location;
 
 public interface ICamera {
 	public Location getLocation();

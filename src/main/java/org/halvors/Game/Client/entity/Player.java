@@ -1,7 +1,7 @@
 package org.halvors.Game.Client.entity;
 
 import org.halvors.Game.Client.Game;
-import org.halvors.Game.Client.Location;
+import org.halvors.Game.Client.world.Location;
 
 public class Player extends LivingEntity {
 	private final String name;

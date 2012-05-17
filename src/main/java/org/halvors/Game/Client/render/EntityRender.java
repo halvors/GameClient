@@ -1,8 +1,8 @@
 package org.halvors.Game.Client.render;
 
 import org.halvors.Game.Client.Game;
-import org.halvors.Game.Client.Location;
 import org.halvors.Game.Client.entity.Entity;
+import org.halvors.Game.Client.world.Location;
 import org.lwjgl.opengl.GL11;
 
 public class EntityRender extends Render {
@@ -15,7 +15,7 @@ public class EntityRender extends Render {
 		Location loc = entity.getLocation();
 		
 		float x = loc.getX();
-		float z = loc.getZ();
+		float z = loc.getY();
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(x, z);
