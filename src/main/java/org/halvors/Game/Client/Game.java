@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.halvors.Game.Client.gui.MainWindow;
 import org.halvors.Game.Client.network.NetworkManager;
 import org.halvors.Game.Client.render.TextureManager;
 import org.lwjgl.LWJGLException;
@@ -40,7 +41,7 @@ public class Game {
 		this.textureManager = new TextureManager(this);
 		this.networkManager = new NetworkManager(this);
 		
-//		new MainWindow(this);
+		new MainWindow(this);
 	}
 	
 	public void init() {

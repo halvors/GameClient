@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			Game game = new Game();
-			game.init();
+//			game.init();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

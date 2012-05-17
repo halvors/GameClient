@@ -1,5 +1,6 @@
 package org.halvors.Game.Client.network;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -55,9 +56,9 @@ public class NetworkManager {
 			
 			// Create the streams.
 			this.input = new DataInputStream(socket.getInputStream());
-			this.output = new DataOutputStream(socket.getOutputStream());
+			this.output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//			this.output = new DataOutputStream(socket.getOutputStream());
 //			this.output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
-//			this.output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 				
 			// Create reader and writer thread.
 			this.readerThread = new ReaderThread(client, "Reader thread", this);
